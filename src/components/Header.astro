@@ -1,13 +1,15 @@
 ---
-import { site, nav, waLink } from "../lib/site";
+import { nav, waLink } from "../lib/site";
+import { getSite } from "../lib/content";
 
+const site = await getSite();
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 ---
 
 <header class="site-header">
   <div class="container header-inner">
     <a href="/" class="brand" aria-label={`${site.businessName} — Ana Sayfa`}>
-      <img src="/logo.svg" alt="" width="40" height="40" />
+      <img src={site.logo ?? "/logo.svg"} alt="" width="40" height="40" />
       <span class="brand-text">
         <strong>{site.businessName}</strong>
         <em>Motosiklet Servisi</em>
@@ -44,7 +46,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
       <div class="header-ctas">
         <a
           class="btn btn--whatsapp"
-          href={waLink("Merhaba, bilgi almak istiyorum.")}
+          href={waLink(site.phoneWhatsapp, site.defaultWhatsappMessage)}
           target="_blank"
           rel="noopener"
         >
@@ -163,7 +165,6 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
     border-radius: 2px;
   }
 
-  /* Mobile drawer */
   @media (max-width: 900px) {
     .site-nav {
       position: absolute;

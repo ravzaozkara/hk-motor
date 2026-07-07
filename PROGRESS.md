@@ -1,13 +1,13 @@
 # PROGRESS.md — HK Motors Website
 
-**Current position:** Phase 1 next.
+**Current position:** Phase 2 next.
 
 > At session start: read CLAUDE.md, then continue from the first unchecked item below.
 > At the end of each phase: check its boxes, add notes, and git commit.
 
 ## Phases
 - [x] **Phase 0 — Scaffold:** Astro + git init; create CLAUDE.md & PROGRESS.md; base layout, design tokens, header + footer, sticky mobile "Acil Yol Yardımı" button; dev server runs.
-- [ ] **Phase 1 — Content model + seed data:** all collections/schemas defined; Turkish placeholder content seeded (services, sample products incl. one 2nd-hand, reviews, FAQ, gallery, about, home hero, real business info in `site`).
+- [x] **Phase 1 — Content model + seed data:** all collections/schemas defined; Turkish placeholder content seeded (services, sample products incl. one 2nd-hand, reviews, FAQ, gallery, about, home hero, real business info in `site`).
 - [ ] **Phase 2 — Home page:** hero, featured services, featured products, reviews snippet, CTAs.
 - [ ] **Phase 3 — Services page.**
 - [ ] **Phase 4 — Products page:** grid + category filter + pricing rule + WhatsApp "Sor" buttons + 2nd-hand fields.
@@ -19,3 +19,4 @@
 
 ## Decisions / notes log
 - **2026-07-07 · Phase 0:** Astro 5 (static output), plain CSS with custom-property design tokens (no Tailwind — keeps the small site simple). Fonts: Barlow (headings) + Inter (body) via Google Fonts. Global tokens live in `src/styles/global.css`; business info + nav + `waLink()` helper live in `src/lib/site.ts` (temporary — Phase 1 moves the singleton into the `site` content collection, keeping the same shape). Sticky mobile CTA renders only ≤768px and calls the primary number. Header nav collapses into a mobile drawer ≤900px. Verified: `npm run build` succeeds and `npm run dev` serves the home page with the expected phone/WhatsApp/CTA strings.
+- **2026-07-07 · Phase 1:** Content collections defined in `src/content.config.ts` (Astro 5 preferred location) using the `glob` loader. Singletons (`site`, `home`, `about`) live in their own folder with a single markdown file whose id equals the collection name — Sveltia will map these to "files" collections in Phase 7. Multi-entry: `services` (15 items), `products` (6: 3 yedek-parça, 2 aksesuar, 1 ikinci-el Honda CB125F 2022 with brand/model/year/km/engineCc/condition all populated), `gallery` (6), `reviews` (4), `faq` (6). Placeholder SVGs in `/public/uploads/` (anthracite + amber, category-specific motif); Sveltia will upload real media into the same folder. Content helpers in `src/lib/content.ts`: `getSite/getHome/getAbout/getServices/getProducts/getGallery/getReviews/getFaq`, plus `formatPrice` (Intl `tr-TR` TRY, or the "Fiyat için WhatsApp'tan sor" fallback), `productWhatsappMessage`, `PRODUCT_CATEGORIES`, `categoryLabel`. `src/lib/site.ts` now only holds pure code (`nav`, `waLink`). Header/Footer/StickyCallButton/BaseLayout all pull from `getSite()`. Added `@astrojs/check` + `typescript` as devDeps; `npx astro check` is clean (0 errors). Gotcha: unquoted YAML frontmatter values with `: ` (colon+space) get parsed as nested mappings — rewrite instead of quoting to keep files Sveltia-friendly.

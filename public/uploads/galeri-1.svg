@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Servis Alanımız">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1f2228"/>
+      <stop offset="1" stop-color="#14161a"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <g transform="translate(400 260)" fill="#ffb400">
+    <g fill="#ffb400"><rect x="-120" y="-40" width="240" height="120" rx="8"/><polygon points="-140,-40 140,-40 100,-90 -100,-90" fill="#ffb400"/><rect x="-60" y="10" width="50" height="70" fill="#14161a"/><rect x="20" y="0" width="60" height="40" fill="#14161a"/></g>
+  </g>
+  <text x="400" y="500" text-anchor="middle" font-family="Barlow, Arial, sans-serif" font-weight="700" font-size="34" fill="#f6f6f7">Servis Alanımız</text>
+  <text x="400" y="540" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="18" fill="#b3b5ba">HK Motors</text>
+</svg>

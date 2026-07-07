@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Yağ Filtresi">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1f2228"/>
+      <stop offset="1" stop-color="#14161a"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <g transform="translate(400 260)" fill="#ffb400">
+    <rect x="-60" y="-70" width="120" height="140" rx="14" fill="none" stroke="#ffb400" stroke-width="12"/><rect x="-30" y="-95" width="60" height="30" rx="8" fill="#ffb400"/><g stroke="#ffb400" stroke-width="8"><line x1="-40" y1="-30" x2="40" y2="-30"/><line x1="-40" y1="0" x2="40" y2="0"/><line x1="-40" y1="30" x2="40" y2="30"/></g>
+  </g>
+  <text x="400" y="500" text-anchor="middle" font-family="Barlow, Arial, sans-serif" font-weight="700" font-size="34" fill="#f6f6f7">Yağ Filtresi</text>
+  <text x="400" y="540" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="18" fill="#b3b5ba">HK Motors</text>
+</svg>

@@ -1,29 +1,30 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { site, waLink } from "../lib/site";
+import { waLink } from "../lib/site";
+import { getSite, getHome } from "../lib/content";
+
+const site = await getSite();
+const home = await getHome();
 ---
 
 <BaseLayout>
   <section class="section section--dark hero">
     <div class="container hero-grid">
       <div>
-        <p class="eyebrow">Eyüpsultan / İstanbul</p>
-        <h1>Motosikletiniz güvenli ellerde.</h1>
-        <p class="lead">
-          Bakım, onarım ve <strong>7/24 yol yardımı</strong>. Deneyimli ekip,
-          hızlı çözüm.
-        </p>
+        <p class="eyebrow">{home.heroEyebrow}</p>
+        <h1>{home.heroHeading}</h1>
+        <p class="lead">{home.heroSubtext}</p>
         <div class="hero-ctas">
           <a class="btn btn--accent" href={`tel:${site.phonePrimaryTel}`}>
-            Acil Yol Yardımı — Ara
+            {home.primaryCtaLabel}
           </a>
           <a
             class="btn btn--whatsapp"
-            href={waLink("Merhaba, bilgi almak istiyorum.")}
+            href={waLink(site.phoneWhatsapp, site.defaultWhatsappMessage)}
             target="_blank"
             rel="noopener"
           >
-            WhatsApp
+            {home.whatsappCtaLabel}
           </a>
         </div>
         <p class="muted small">
@@ -37,8 +38,7 @@ import { site, waLink } from "../lib/site";
     <div class="container">
       <h2>Yakında</h2>
       <p>
-        Ana sayfa içerikleri (öne çıkan hizmetler, ürünler, müşteri yorumları)
-        Phase 2'de eklenecek.
+        Öne çıkan hizmetler, ürünler ve müşteri yorumları Phase 2'de eklenecek.
       </p>
     </div>
   </section>

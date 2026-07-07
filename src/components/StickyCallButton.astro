@@ -1,14 +1,14 @@
 ---
-import { site } from "../lib/site";
+import { getSite } from "../lib/content";
+const site = await getSite();
 ---
 
 <a
   class="sticky-cta"
   href={`tel:${site.phonePrimaryTel}`}
-  aria-label="Acil Yol Yardımı — Ara"
+  aria-label={site.stickyCtaLabel}
 >
   <span class="sticky-cta__icon" aria-hidden="true">
-    <!-- phone icon -->
     <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
       <path
         d="M6.6 10.8a15.1 15.1 0 006.6 6.6l2.2-2.2a1 1 0 011-.24 11.4 11.4 0 003.6.58 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.58 3.6a1 1 0 01-.24 1z"
@@ -16,8 +16,8 @@ import { site } from "../lib/site";
     </svg>
   </span>
   <span class="sticky-cta__text">
-    <strong>Acil Yol Yardımı</strong>
-    <span>Ara — {site.phonePrimary}</span>
+    <strong>{site.stickyCtaLabel}</strong>
+    <span>{site.phonePrimary}</span>
   </span>
 </a>
 

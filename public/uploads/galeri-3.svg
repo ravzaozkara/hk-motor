@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Motosiklet Bakımı">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1f2228"/>
+      <stop offset="1" stop-color="#14161a"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <g transform="translate(400 260)" fill="#ffb400">
+    <g fill="#ffb400"><circle cx="-100" cy="30" r="45" fill="none" stroke="#ffb400" stroke-width="12"/><circle cx="100" cy="30" r="45" fill="none" stroke="#ffb400" stroke-width="12"/><path d="M -100 30 L -40 -30 L 40 -30 L 100 30 M -30 -40 L 30 -40 L 40 -70 L 70 -70" stroke="#ffb400" stroke-width="12" fill="none" stroke-linejoin="round"/><rect x="-60" y="-45" width="80" height="18" rx="6"/></g>
+  </g>
+  <text x="400" y="500" text-anchor="middle" font-family="Barlow, Arial, sans-serif" font-weight="700" font-size="34" fill="#f6f6f7">Motosiklet Bakımı</text>
+  <text x="400" y="540" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="18" fill="#b3b5ba">HK Motors</text>
+</svg>

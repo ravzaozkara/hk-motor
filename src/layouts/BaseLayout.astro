@@ -3,13 +3,14 @@ import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import StickyCallButton from "../components/StickyCallButton.astro";
-import { site } from "../lib/site";
+import { getSite } from "../lib/content";
 
 type Props = {
   title?: string;
   description?: string;
 };
 
+const site = await getSite();
 const {
   title = `${site.businessName} — ${site.tagline}`,
   description = "Motosiklet servisi, bakım, onarım ve 7/24 yol yardımı. Eyüpsultan, İstanbul.",
