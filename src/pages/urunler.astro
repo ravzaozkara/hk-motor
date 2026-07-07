@@ -1,0 +1,232 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import ProductCard from "../components/ProductCard.astro";
+import { waLink } from "../lib/site";
+import {
+  getSite,
+  getProducts,
+  PRODUCT_CATEGORIES,
+} from "../lib/content";
+
+const site = await getSite();
+const products = await getProducts();
+
+const filters = [
+  { value: "all", label: "Hepsi" },
+  ...PRODUCT_CATEGORIES,
+];
+
+const counts: Record<string, number> = { all: products.length };
+for (const c of PRODUCT_CATEGORIES) {
+  counts[c.value] = products.filter((p) => p.data.category === c.value).length;
+}
+---
+
+<BaseLayout
+  title={`Ürünler — ${site.businessName}`}
+  description="Yedek parça, aksesuar ve 2. el motosiklet showcase kataloğu. Fiyat ve stok bilgisi için WhatsApp'tan yazın."
+>
+  <section class="section section--dark page-hero">
+    <div class="container">
+      <p class="eyebrow">Ürünler</p>
+      <h1>Yedek parça, aksesuar ve 2. el motosikletler.</h1>
+      <p class="lead">
+        Aşağıdaki katalog sadece bir seçki. Stoğumuzda olmayan ürünleri de
+        hızlıca temin ediyoruz. Fiyat ve stok için WhatsApp'tan yazın.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeader title="Katalog" />
+
+      <div class="filters" role="tablist" aria-label="Kategori filtresi">
+        {
+          filters.map((f, i) => (
+            <button
+              type="button"
+              role="tab"
+              class:list={["filter-btn", { "is-active": i === 0 }]}
+              data-filter={f.value}
+              aria-selected={i === 0}
+            >
+              {f.label}
+              <span class="count">{counts[f.value]}</span>
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="grid" id="product-grid">
+        {
+          products.map((p) => (
+            <div class="product-cell" data-category={p.data.category}>
+              <ProductCard
+                name={p.data.name}
+                category={p.data.category}
+                price={p.data.price}
+                image={p.data.image}
+                description={p.data.description}
+                brand={p.data.brand}
+                model={p.data.model}
+                year={p.data.year}
+                km={p.data.km}
+                engineCc={p.data.engineCc}
+                condition={p.data.condition}
+              />
+            </div>
+          ))
+        }
+      </div>
+
+      <p id="empty-state" class="empty-state" hidden>
+        Bu kategoride şu an listelenen ürün yok. WhatsApp'tan yazın —
+        stoğumuzu birlikte kontrol edelim.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="container cta-band">
+      <div>
+        <h2>Aradığınız parça listede yok mu?</h2>
+        <p>
+          Ürün adı, marka veya modelle WhatsApp'tan yazın — stok ve fiyatı hızlıca paylaşalım.
+        </p>
+      </div>
+      <div class="ctas">
+        <a
+          class="btn btn--whatsapp"
+          href={waLink(site.phoneWhatsapp, "Merhaba, bir ürün soracaktım.")}
+          target="_blank"
+          rel="noopener"
+        >
+          WhatsApp'tan yaz
+        </a>
+        <a class="btn btn--accent" href={`tel:${site.phonePrimaryTel}`}>Ara</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>(".filter-btn");
+  const cells = document.querySelectorAll<HTMLElement>(".product-cell");
+  const empty = document.getElementById("empty-state") as HTMLElement | null;
+
+  function applyFilter(value: string) {
+    let visible = 0;
+    cells.forEach((cell) => {
+      const match = value === "all" || cell.dataset.category === value;
+      cell.hidden = !match;
+      if (match) visible++;
+    });
+    if (empty) empty.hidden = visible > 0;
+    buttons.forEach((b) => {
+      const active = b.dataset.filter === value;
+      b.classList.toggle("is-active", active);
+      b.setAttribute("aria-selected", String(active));
+    });
+    const url = new URL(window.location.href);
+    if (value === "all") url.searchParams.delete("kategori");
+    else url.searchParams.set("kategori", value);
+    history.replaceState(null, "", url.toString());
+  }
+
+  buttons.forEach((b) => {
+    b.addEventListener("click", () => applyFilter(b.dataset.filter ?? "all"));
+  });
+
+  const initial =
+    new URL(window.location.href).searchParams.get("kategori") ?? "all";
+  applyFilter(initial);
+</script>
+
+<style>
+  .page-hero { padding-block: clamp(3rem, 6vw, 5rem); }
+  .page-hero h1 { max-width: 22ch; }
+  .page-hero .lead {
+    color: var(--color-on-dark-muted);
+    max-width: 60ch;
+    font-size: 1.05rem;
+  }
+  .eyebrow {
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-accent);
+    font-size: 0.85rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.75rem;
+  }
+  .filter-btn {
+    background: var(--color-bg);
+    border: 1.5px solid var(--color-border);
+    color: var(--color-text);
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.92rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  }
+  .filter-btn:hover { border-color: var(--color-accent); }
+  .filter-btn.is-active {
+    background: var(--color-dark);
+    border-color: var(--color-dark);
+    color: var(--color-on-dark);
+  }
+  .filter-btn .count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: var(--color-surface-2);
+    color: var(--color-text);
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+  .filter-btn.is-active .count {
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .empty-state {
+    text-align: center;
+    color: var(--color-text-muted);
+    padding: 3rem 1rem;
+  }
+
+  .cta-band {
+    display: grid;
+    gap: 1.5rem;
+    align-items: center;
+    grid-template-columns: 1fr;
+  }
+  .cta-band h2 { margin-bottom: 0.5rem; }
+  .cta-band p { max-width: 60ch; margin: 0; color: var(--color-text-muted); }
+  .ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  @media (min-width: 720px) {
+    .cta-band { grid-template-columns: 1fr auto; }
+  }
+</style>
