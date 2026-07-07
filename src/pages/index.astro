@@ -1,0 +1,77 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site, waLink } from "../lib/site";
+---
+
+<BaseLayout>
+  <section class="section section--dark hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="eyebrow">Eyüpsultan / İstanbul</p>
+        <h1>Motosikletiniz güvenli ellerde.</h1>
+        <p class="lead">
+          Bakım, onarım ve <strong>7/24 yol yardımı</strong>. Deneyimli ekip,
+          hızlı çözüm.
+        </p>
+        <div class="hero-ctas">
+          <a class="btn btn--accent" href={`tel:${site.phonePrimaryTel}`}>
+            Acil Yol Yardımı — Ara
+          </a>
+          <a
+            class="btn btn--whatsapp"
+            href={waLink("Merhaba, bilgi almak istiyorum.")}
+            target="_blank"
+            rel="noopener"
+          >
+            WhatsApp
+          </a>
+        </div>
+        <p class="muted small">
+          {site.hoursText} · {site.roadsideAreaText}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Yakında</h2>
+      <p>
+        Ana sayfa içerikleri (öne çıkan hizmetler, ürünler, müşteri yorumları)
+        Phase 2'de eklenecek.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: clamp(3rem, 8vw, 6rem);
+  }
+  .hero-grid {
+    display: grid;
+    gap: 2rem;
+    max-width: 780px;
+  }
+  .eyebrow {
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-accent);
+    font-size: 0.85rem;
+    margin: 0 0 0.5rem;
+  }
+  .lead {
+    font-size: 1.15rem;
+    color: var(--color-on-dark-muted);
+    max-width: 60ch;
+  }
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-block: 1.5rem 1rem;
+  }
+  .muted { color: var(--color-on-dark-muted); }
+  .small { font-size: 0.9rem; }
+</style>

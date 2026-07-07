@@ -1,0 +1,76 @@
+---
+import { site } from "../lib/site";
+---
+
+<a
+  class="sticky-cta"
+  href={`tel:${site.phonePrimaryTel}`}
+  aria-label="Acil Yol Yardımı — Ara"
+>
+  <span class="sticky-cta__icon" aria-hidden="true">
+    <!-- phone icon -->
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+      <path
+        d="M6.6 10.8a15.1 15.1 0 006.6 6.6l2.2-2.2a1 1 0 011-.24 11.4 11.4 0 003.6.58 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.58 3.6a1 1 0 01-.24 1z"
+      ></path>
+    </svg>
+  </span>
+  <span class="sticky-cta__text">
+    <strong>Acil Yol Yardımı</strong>
+    <span>Ara — {site.phonePrimary}</span>
+  </span>
+</a>
+
+<style>
+  .sticky-cta {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    height: calc(var(--sticky-cta-h) + env(safe-area-inset-bottom, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+    font-family: var(--font-heading);
+    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.15);
+    z-index: 50;
+  }
+
+  .sticky-cta:hover {
+    background: var(--color-accent-hover);
+  }
+
+  .sticky-cta__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(20, 22, 26, 0.15);
+  }
+
+  .sticky-cta__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+  .sticky-cta__text strong {
+    font-size: 1rem;
+    letter-spacing: 0.01em;
+  }
+  .sticky-cta__text span {
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  @media (max-width: 768px) {
+    .sticky-cta {
+      display: inline-flex;
+    }
+  }
+</style>

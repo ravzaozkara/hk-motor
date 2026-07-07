@@ -1,0 +1,120 @@
+---
+import { site, nav, waLink } from "../lib/site";
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <div class="brand">
+        <img src="/logo.svg" alt="" width="36" height="36" />
+        <strong>{site.businessName}</strong>
+      </div>
+      <p class="muted">
+        Motosikletiniz için servis, bakım, onarım ve 7/24 yol yardımı.
+      </p>
+    </div>
+
+    <div>
+      <h4>İletişim</h4>
+      <address>
+        <p>{site.address}</p>
+        <p>
+          <a href={`tel:${site.phonePrimaryTel}`}>{site.phonePrimary}</a>
+          <span class="muted"> (arama + WhatsApp)</span>
+        </p>
+        <p>
+          <a href={`tel:${site.phoneSecondaryTel}`}>{site.phoneSecondary}</a>
+          <span class="muted"> (arama)</span>
+        </p>
+        <p>
+          <a href={waLink()} target="_blank" rel="noopener">WhatsApp'tan yaz</a>
+        </p>
+      </address>
+    </div>
+
+    <div>
+      <h4>Çalışma Saatleri</h4>
+      <p>{site.hoursText}</p>
+      <p class="muted">{site.roadsideAreaText}</p>
+    </div>
+
+    <div>
+      <h4>Sayfalar</h4>
+      <ul class="footer-nav">
+        {nav.map((item) => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container">
+      <span>© {year} {site.businessName}. Tüm hakları saklıdır.</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--color-dark);
+    color: var(--color-on-dark);
+    margin-top: auto;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    padding-block: 3rem;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  h4 {
+    color: var(--color-accent);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.75rem;
+  }
+
+  address { font-style: normal; }
+
+  address p,
+  .footer-nav a,
+  address a {
+    color: var(--color-on-dark);
+  }
+
+  address a:hover,
+  .footer-nav a:hover {
+    color: var(--color-accent);
+  }
+
+  .muted { color: var(--color-on-dark-muted); font-size: 0.9rem; }
+
+  .footer-nav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-block: 1rem;
+    font-size: 0.85rem;
+    color: var(--color-on-dark-muted);
+    text-align: center;
+  }
+</style>

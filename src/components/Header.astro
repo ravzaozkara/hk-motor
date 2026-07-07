@@ -1,0 +1,208 @@
+---
+import { site, nav, waLink } from "../lib/site";
+
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="brand" aria-label={`${site.businessName} — Ana Sayfa`}>
+      <img src="/logo.svg" alt="" width="40" height="40" />
+      <span class="brand-text">
+        <strong>{site.businessName}</strong>
+        <em>Motosiklet Servisi</em>
+      </span>
+    </a>
+
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="site-nav"
+      aria-label="Menüyü aç/kapat"
+    >
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav id="site-nav" class="site-nav" aria-label="Ana menü">
+      <ul>
+        {
+          nav.map((item) => {
+            const normalized = item.href.replace(/\/$/, "") || "/";
+            const isActive = normalized === currentPath;
+            return (
+              <li>
+                <a href={item.href} aria-current={isActive ? "page" : undefined}>
+                  {item.label}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+
+      <div class="header-ctas">
+        <a
+          class="btn btn--whatsapp"
+          href={waLink("Merhaba, bilgi almak istiyorum.")}
+          target="_blank"
+          rel="noopener"
+        >
+          WhatsApp
+        </a>
+        <a class="btn btn--accent" href={`tel:${site.phonePrimaryTel}`}>
+          Ara
+        </a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>(".nav-toggle");
+  const nav = document.getElementById("site-nav");
+  toggle?.addEventListener("click", () => {
+    const isOpen = nav?.classList.toggle("is-open") ?? false;
+    toggle.setAttribute("aria-expanded", String(isOpen));
+  });
+</script>
+
+<style>
+  .site-header {
+    background: var(--color-dark);
+    color: var(--color-on-dark);
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    border-bottom: 3px solid var(--color-accent);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.75rem;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--color-on-dark);
+  }
+
+  .brand img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    font-family: var(--font-heading);
+  }
+  .brand-text strong {
+    font-size: 1.15rem;
+    letter-spacing: 0.02em;
+  }
+  .brand-text em {
+    font-style: normal;
+    font-size: 0.75rem;
+    color: var(--color-on-dark-muted);
+    margin-top: 3px;
+  }
+
+  .site-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .site-nav a {
+    display: inline-block;
+    padding: 0.55rem 0.75rem;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--color-on-dark);
+    border-radius: 6px;
+  }
+
+  .site-nav a:hover,
+  .site-nav a[aria-current="page"] {
+    color: var(--color-accent);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .header-ctas {
+    display: none;
+    gap: 0.5rem;
+    margin-left: 0.5rem;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 0 10px;
+  }
+  .nav-toggle span {
+    display: block;
+    height: 2px;
+    background: var(--color-on-dark);
+    border-radius: 2px;
+  }
+
+  /* Mobile drawer */
+  @media (max-width: 900px) {
+    .site-nav {
+      position: absolute;
+      inset: 100% 0 auto 0;
+      background: var(--color-dark-2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.75rem var(--container-pad) 1rem;
+      display: none;
+    }
+    .site-nav.is-open {
+      display: block;
+    }
+    .site-nav ul {
+      flex-direction: column;
+      gap: 0;
+    }
+    .site-nav li {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .site-nav a {
+      display: block;
+      padding: 0.9rem 0.25rem;
+      font-size: 1rem;
+    }
+    .header-ctas {
+      display: flex;
+      margin: 0.75rem 0 0;
+    }
+    .header-ctas .btn {
+      flex: 1;
+    }
+  }
+
+  @media (min-width: 901px) {
+    .nav-toggle {
+      display: none;
+    }
+    .header-ctas {
+      display: inline-flex;
+    }
+  }
+</style>
