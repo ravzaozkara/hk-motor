@@ -1,0 +1,68 @@
+---
+import StarRating from "./StarRating.astro";
+
+type Props = {
+  author: string;
+  rating: number;
+  text: string;
+  date: Date;
+};
+const { author, rating, text, date } = Astro.props;
+const formattedDate = new Intl.DateTimeFormat("tr-TR", {
+  year: "numeric",
+  month: "long",
+}).format(date);
+---
+
+<article class="review-card">
+  <StarRating rating={rating} />
+  <blockquote>{text}</blockquote>
+  <footer>
+    <strong>{author}</strong>
+    <span aria-hidden="true">·</span>
+    <time datetime={date.toISOString()}>{formattedDate}</time>
+  </footer>
+</article>
+
+<style>
+  .review-card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    height: 100%;
+  }
+
+  blockquote {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.55;
+    color: var(--color-text);
+    quotes: "\201C" "\201D";
+  }
+  blockquote::before {
+    content: open-quote;
+    color: var(--color-accent);
+    font-size: 1.3em;
+    margin-right: 2px;
+  }
+  blockquote::after {
+    content: close-quote;
+    color: var(--color-accent);
+    font-size: 1.3em;
+    margin-left: 2px;
+  }
+
+  footer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    margin-top: auto;
+  }
+  footer strong { color: var(--color-text); font-family: var(--font-heading); }
+</style>

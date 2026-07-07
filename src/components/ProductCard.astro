@@ -1,0 +1,210 @@
+---
+import { waLink } from "../lib/site";
+import {
+  categoryLabel,
+  formatPrice,
+  productWhatsappMessage,
+  type ProductCategory,
+} from "../lib/content";
+import { getSite } from "../lib/content";
+
+type Props = {
+  name: string;
+  category: ProductCategory;
+  price: number | null | undefined;
+  image?: string;
+  description?: string;
+  brand?: string;
+  model?: string;
+  year?: number;
+  km?: number;
+  engineCc?: number;
+  condition?: string;
+};
+
+const {
+  name,
+  category,
+  price,
+  image,
+  description,
+  brand,
+  model,
+  year,
+  km,
+  engineCc,
+  condition,
+} = Astro.props;
+
+const site = await getSite();
+const priceLabel = formatPrice(price);
+const hasPrice = price != null;
+const isBike = category === "ikinci-el";
+const spec: Array<[string, string]> = [];
+if (isBike) {
+  if (brand) spec.push(["Marka", brand]);
+  if (model) spec.push(["Model", model]);
+  if (year != null) spec.push(["Yıl", String(year)]);
+  if (km != null) spec.push(["KM", new Intl.NumberFormat("tr-TR").format(km)]);
+  if (engineCc != null) spec.push(["Motor", `${engineCc} cc`]);
+  if (condition) spec.push(["Durum", condition]);
+}
+---
+
+<article class="product-card">
+  <div class="product-card__media">
+    {image ? (
+      <img src={image} alt={name} loading="lazy" width="800" height="600" />
+    ) : (
+      <div class="product-card__placeholder" aria-hidden="true">
+        <span>{categoryLabel(category)}</span>
+      </div>
+    )}
+    <span class="product-card__badge">{categoryLabel(category)}</span>
+  </div>
+
+  <div class="product-card__body">
+    <h3>{name}</h3>
+    {description && <p class="desc">{description}</p>}
+
+    {isBike && spec.length > 0 && (
+      <dl class="spec">
+        {spec.map(([k, v]) => (
+          <>
+            <dt>{k}</dt>
+            <dd>{v}</dd>
+          </>
+        ))}
+      </dl>
+    )}
+
+    <div class="product-card__foot">
+      <span class:list={["price", { "price--ask": !hasPrice }]}>{priceLabel}</span>
+      <a
+        class="btn btn--whatsapp btn--sm"
+        href={waLink(site.phoneWhatsapp, productWhatsappMessage(name))}
+        target="_blank"
+        rel="noopener"
+      >
+        WhatsApp'tan Sor
+      </a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .product-card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease,
+      transform 0.15s ease;
+  }
+  .product-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .product-card__media {
+    position: relative;
+    background: var(--color-dark);
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+  .product-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .product-card__placeholder {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    color: var(--color-on-dark-muted);
+    font-family: var(--font-heading);
+  }
+  .product-card__badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.3rem 0.6rem;
+    border-radius: 999px;
+  }
+
+  .product-card__body {
+    padding: 1.1rem 1.25rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    flex: 1;
+  }
+  .product-card__body h3 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+  .desc {
+    color: var(--color-text-muted);
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .spec {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.15rem 0.75rem;
+    margin: 0.15rem 0 0.35rem;
+    font-size: 0.88rem;
+  }
+  .spec dt {
+    color: var(--color-text-muted);
+  }
+  .spec dd {
+    margin: 0;
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .product-card__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .price {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--color-text);
+  }
+  .price--ask {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    line-height: 1.25;
+    max-width: 60%;
+  }
+
+  .btn--sm {
+    min-height: 40px;
+    padding: 0.55rem 0.9rem;
+    font-size: 0.9rem;
+  }
+</style>

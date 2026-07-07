@@ -1,0 +1,26 @@
+---
+type Props = {
+  rating: number; // 1–5
+};
+const { rating } = Astro.props;
+const stars = Array.from({ length: 5 }, (_, i) => i < rating);
+---
+
+<div class="stars" role="img" aria-label={`${rating} yıldız üzerinden 5`}>
+  {stars.map((filled) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"
+      fill={filled ? "var(--color-accent)" : "none"}
+      stroke={filled ? "var(--color-accent)" : "var(--color-border)"} stroke-width="1.5">
+      <path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.6l-5.9 3 1.2-6.5L2.5 9.4l6.6-.9L12 2.5z" />
+    </svg>
+  ))}
+</div>
+
+<style>
+  .stars {
+    display: inline-flex;
+    gap: 2px;
+    align-items: center;
+    line-height: 1;
+  }
+</style>

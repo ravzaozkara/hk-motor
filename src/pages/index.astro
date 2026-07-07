@@ -1,13 +1,31 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+import ProductCard from "../components/ProductCard.astro";
+import ReviewCard from "../components/ReviewCard.astro";
 import { waLink } from "../lib/site";
-import { getSite, getHome } from "../lib/content";
+import {
+  getSite,
+  getHome,
+  getServices,
+  getProducts,
+  getReviews,
+} from "../lib/content";
 
 const site = await getSite();
 const home = await getHome();
+const services = await getServices();
+const products = await getProducts();
+const reviews = await getReviews();
+
+const featuredServices = services.filter((s) => s.data.featured).slice(0, 4);
+const featuredProducts = products.filter((p) => p.data.featured).slice(0, 4);
+const featuredReviews = reviews.filter((r) => r.data.featured).slice(0, 3);
 ---
 
 <BaseLayout>
+  {/* ── Hero ─────────────────────────────────────────── */}
   <section class="section section--dark hero">
     <div class="container hero-grid">
       <div>
@@ -34,25 +52,107 @@ const home = await getHome();
     </div>
   </section>
 
+  {/* ── Featured services ────────────────────────────── */}
   <section class="section">
     <div class="container">
-      <h2>Yakında</h2>
-      <p>
-        Öne çıkan hizmetler, ürünler ve müşteri yorumları Phase 2'de eklenecek.
+      <SectionHeader
+        title={home.servicesSectionTitle}
+        subtitle={home.servicesSectionSubtitle}
+      />
+      <div class="grid grid--services">
+        {
+          featuredServices.map((s) => (
+            <ServiceCard title={s.data.title} description={s.data.description} />
+          ))
+        }
+      </div>
+      <p class="section-cta">
+        <a class="btn btn--outline" href="/hizmetler">Tüm hizmetler →</a>
       </p>
+    </div>
+  </section>
+
+  {/* ── Featured products ────────────────────────────── */}
+  <section class="section section--surface">
+    <div class="container">
+      <SectionHeader
+        title={home.productsSectionTitle}
+        subtitle={home.productsSectionSubtitle}
+      />
+      <div class="grid grid--products">
+        {
+          featuredProducts.map((p) => (
+            <ProductCard
+              name={p.data.name}
+              category={p.data.category}
+              price={p.data.price}
+              image={p.data.image}
+              description={p.data.description}
+              brand={p.data.brand}
+              model={p.data.model}
+              year={p.data.year}
+              km={p.data.km}
+              engineCc={p.data.engineCc}
+              condition={p.data.condition}
+            />
+          ))
+        }
+      </div>
+      <p class="section-cta">
+        <a class="btn btn--outline" href="/urunler">Tüm ürünler →</a>
+      </p>
+    </div>
+  </section>
+
+  {/* ── Reviews snippet ─────────────────────────────── */}
+  {featuredReviews.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <SectionHeader title={home.reviewsSectionTitle} align="center" />
+        <div class="grid grid--reviews">
+          {featuredReviews.map((r) => (
+            <ReviewCard
+              author={r.data.author}
+              rating={r.data.rating}
+              text={r.data.text}
+              date={r.data.date}
+            />
+          ))}
+        </div>
+        <p class="section-cta">
+          <a class="btn btn--outline" href="/yorumlar">Tüm yorumlar →</a>
+        </p>
+      </div>
+    </section>
+  )}
+
+  {/* ── Closing CTA ─────────────────────────────────── */}
+  <section class="section section--dark closing">
+    <div class="container closing-inner">
+      <div>
+        <h2>{home.closingHeading}</h2>
+        <p class="lead">{home.closingSubtext}</p>
+      </div>
+      <div class="closing-ctas">
+        <a class="btn btn--accent" href={`tel:${site.phonePrimaryTel}`}>
+          {site.phonePrimary}
+        </a>
+        <a
+          class="btn btn--whatsapp"
+          href={waLink(site.phoneWhatsapp, site.defaultWhatsappMessage)}
+          target="_blank"
+          rel="noopener"
+        >
+          WhatsApp
+        </a>
+      </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .hero {
-    padding-block: clamp(3rem, 8vw, 6rem);
-  }
-  .hero-grid {
-    display: grid;
-    gap: 2rem;
-    max-width: 780px;
-  }
+  .hero { padding-block: clamp(3rem, 8vw, 6rem); }
+  .hero-grid { display: grid; gap: 2rem; max-width: 780px; }
   .eyebrow {
     font-family: var(--font-heading);
     text-transform: uppercase;
@@ -62,7 +162,7 @@ const home = await getHome();
     margin: 0 0 0.5rem;
   }
   .lead {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     color: var(--color-on-dark-muted);
     max-width: 60ch;
   }
@@ -74,4 +174,32 @@ const home = await getHome();
   }
   .muted { color: var(--color-on-dark-muted); }
   .small { font-size: 0.9rem; }
+
+  .grid { display: grid; gap: 1.25rem; }
+  .grid--services { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .grid--products { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .grid--reviews  { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+  .section-cta {
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  .closing-inner {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+    align-items: center;
+  }
+  .closing h2 { margin-bottom: 0.5rem; }
+  .closing .lead { color: var(--color-on-dark-muted); }
+  .closing-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 700px) {
+    .closing-inner { grid-template-columns: 1fr auto; }
+  }
 </style>

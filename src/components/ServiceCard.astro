@@ -1,0 +1,59 @@
+---
+type Props = {
+  title: string;
+  description: string;
+};
+const { title, description } = Astro.props;
+---
+
+<article class="service-card">
+  <div class="service-card__icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14.7 6.3a4 4 0 015.7 5.7L11 21.4l-4.4 1.1 1.1-4.4 8-11.8z" />
+      <path d="M13 8l3 3" />
+    </svg>
+  </div>
+  <h3>{title}</h3>
+  <p>{description}</p>
+</article>
+
+<style>
+  .service-card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    height: 100%;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease,
+      transform 0.15s ease;
+  }
+  .service-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+  .service-card__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(255, 180, 0, 0.12);
+    color: var(--color-accent-ink);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.25rem;
+  }
+  .service-card h3 {
+    font-size: 1.15rem;
+    margin: 0;
+  }
+  .service-card p {
+    color: var(--color-text-muted);
+    margin: 0;
+    font-size: 0.98rem;
+    line-height: 1.5;
+  }
+</style>
