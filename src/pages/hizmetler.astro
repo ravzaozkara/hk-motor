@@ -1,0 +1,100 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+import { waLink } from "../lib/site";
+import { getSite, getServices } from "../lib/content";
+
+const site = await getSite();
+const services = await getServices();
+---
+
+<BaseLayout
+  title={`Hizmetlerimiz — ${site.businessName}`}
+  description="Motosikletiniz için sunduğumuz tüm hizmetler: periyodik bakım, onarım, yağ ve filtre değişimi, fren, zincir, elektrik, motor revizyonu, 7/24 yol yardımı ve daha fazlası."
+>
+  <section class="section section--dark page-hero">
+    <div class="container">
+      <p class="eyebrow">Hizmetler</p>
+      <h1>Motosikletiniz için her ihtiyaca tek çatı altında çözüm.</h1>
+      <p class="lead">
+        Periyodik bakımdan motor revizyonuna, 7/24 yol yardımından 2. el
+        ekspertize; işi ehline bırakın.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeader
+        title="Tüm hizmetler"
+        subtitle="Aradığınız hizmet listede yoksa da bize ulaşın; büyük ihtimalle çözebiliriz."
+      />
+      <div class="grid">
+        {
+          services.map((s) => (
+            <ServiceCard title={s.data.title} description={s.data.description} />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="container cta-band">
+      <div>
+        <h2>Servis randevusu almak ister misiniz?</h2>
+        <p>
+          Motosikletinizle ilgili aklınıza takılanı WhatsApp'tan yazın veya
+          telefonla arayın — en kısa sürede yönlendirelim.
+        </p>
+      </div>
+      <div class="ctas">
+        <a class="btn btn--accent" href={`tel:${site.phonePrimaryTel}`}>Ara</a>
+        <a
+          class="btn btn--whatsapp"
+          href={waLink(site.phoneWhatsapp, site.defaultWhatsappMessage)}
+          target="_blank"
+          rel="noopener"
+        >
+          WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero { padding-block: clamp(3rem, 6vw, 5rem); }
+  .page-hero h1 { max-width: 20ch; }
+  .page-hero .lead {
+    color: var(--color-on-dark-muted);
+    max-width: 60ch;
+    font-size: 1.05rem;
+  }
+  .eyebrow {
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-accent);
+    font-size: 0.85rem;
+    margin: 0 0 0.5rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+  }
+  .cta-band {
+    display: grid;
+    gap: 1.5rem;
+    align-items: center;
+    grid-template-columns: 1fr;
+  }
+  .cta-band h2 { margin-bottom: 0.5rem; }
+  .cta-band p { max-width: 60ch; margin: 0; color: var(--color-text-muted); }
+  .ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  @media (min-width: 720px) {
+    .cta-band { grid-template-columns: 1fr auto; }
+  }
+</style>
