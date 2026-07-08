@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>HK Motors — Yönetim Paneli</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/favicon.svg"
+    />
+    <!-- Sveltia CMS'in config.yml'i yükleyeceği yer -->
+    <link href="config.yml" type="text/yaml" rel="cms-config-url" />
+    <style>
+      html, body { margin: 0; height: 100%; background: #14161a; }
+      body { font-family: system-ui, -apple-system, sans-serif; color: #f6f6f7; }
+      #loading { position: fixed; inset: 0; display: grid; place-items: center; padding: 2rem; text-align: center; }
+      #loading h1 { font-size: 1.15rem; margin: 0 0 .5rem; }
+      #loading p { color: #b3b5ba; max-width: 42ch; margin: 0; font-size: .95rem; line-height: 1.5; }
+      #loading a { color: #ffb400; }
+    </style>
+  </head>
+  <body>
+    <div id="loading">
+      <div>
+        <h1>Yönetim paneli yükleniyor…</h1>
+        <p>
+          Panel açılmıyorsa lütfen tarayıcınızın internet bağlantısını kontrol
+          edin. Yardım için bize
+          <a href="/iletisim">İletişim</a> sayfasından ulaşabilirsiniz.
+        </p>
+      </div>
+    </div>
+
+    <!-- Sveltia CMS from CDN (Decap CMS'in aktif olarak sürdürülen halefi) -->
+    <script
+      type="module"
+      src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"
+    ></script>
+  </body>
+</html>

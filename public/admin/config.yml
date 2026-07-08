@@ -1,0 +1,303 @@
+# =============================================================================
+# HK Motors — Yönetim paneli yapılandırması
+# =============================================================================
+# Bu dosya Sveltia CMS'in nasıl davranacağını belirler. Panel, GitHub üzerinde
+# saklanan `src/content/` içeriğini düzenler ve `public/uploads/` klasörüne
+# görsel yükler. Her değişiklik GitHub'a yeni bir commit olarak yazılır ve
+# Netlify otomatik olarak yeniden yayına alır.
+#
+# KURULUM (yalnızca ilk seferinde, geliştiricinin yapması gerekenler):
+#   1) Aşağıdaki `backend.repo` alanına GitHub repo yolunu yazın
+#      (örn. "kullanici-adi/hkmotor"). Repo private olabilir.
+#   2) GitHub'da bir OAuth App oluşturun (Settings → Developer settings →
+#      OAuth Apps → New OAuth App).
+#      - Homepage URL: canlı site adresi (örn. https://hkmotors.netlify.app)
+#      - Authorization callback URL: https://cms.sveltia.dev/callback
+#   3) Oluşturulan Client ID'yi aşağıdaki `backend.app_id` alanına yazın.
+#      Client Secret gerekmiyor — Sveltia PKCE ile güvenli akış kullanıyor.
+#   4) `admin/config.yml` dosyasını commit'leyip deploy edin. Panel artık
+#      https://SITENIZ/admin adresinden erişilebilir.
+# =============================================================================
+
+backend:
+  name: github
+  repo: OWNER/REPO           # TODO: "kullanici-adi/hkmotor" olarak güncelleyin
+  branch: main
+  auth_type: pkce            # Sunucusuz PKCE OAuth (Sveltia önerisi)
+  app_id: TODO_CLIENT_ID     # TODO: GitHub OAuth App'in Client ID'si
+
+# Panel arayüzünün dili
+locale: tr
+
+# Yerel geliştirme için: `npm run dev` çalıştırırken `?proxy=1` ile
+# doğrudan yerel dosyaları düzenlemeye izin verir (opsiyonel).
+# local_backend: true
+
+# Görsel yüklemeleri
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+# Editör açıklaması
+site_url: https://hkmotors.netlify.app
+logo_url: /logo.svg
+
+# =============================================================================
+# Koleksiyonlar
+# =============================================================================
+collections:
+  # ── SİTE AYARLARI (singleton) ────────────────────────────────────────────
+  - name: site
+    label: "Site Ayarları"
+    description: "İşletme bilgileri: adres, telefon, çalışma saatleri, harita."
+    files:
+      - name: site
+        label: "Genel Bilgiler"
+        file: "src/content/site/site.md"
+        format: yaml-frontmatter
+        fields:
+          - { name: businessName, label: "İşletme adı", widget: string }
+          - { name: tagline, label: "Kısa slogan", widget: string }
+          - { name: address, label: "Adres", widget: text }
+          - { name: hoursText, label: "Çalışma saatleri (metin)", widget: string }
+          - { name: roadsideAreaText, label: "Yol yardımı bölgesi (metin)", widget: string }
+          - name: phonePrimary
+            label: "Birincil telefon (gösterilen)"
+            widget: string
+            hint: "Örn: +90 537 213 6728"
+          - name: phonePrimaryTel
+            label: "Birincil telefon (arama linki)"
+            widget: string
+            hint: "Boşluksuz, ülke kodu ile. Örn: +905372136728"
+          - name: phoneWhatsapp
+            label: "WhatsApp numarası"
+            widget: string
+            hint: "Sadece rakam, başında + veya boşluk yok. Örn: 905372136728"
+          - name: phoneSecondary
+            label: "İkincil telefon (gösterilen, opsiyonel)"
+            widget: string
+            required: false
+          - name: phoneSecondaryTel
+            label: "İkincil telefon (arama linki, opsiyonel)"
+            widget: string
+            required: false
+          - name: mapEmbedUrl
+            label: "Google Maps embed URL"
+            widget: string
+            hint: "Google Maps'ten paylaş → embed kodundaki src linkini yapıştırın."
+          - name: instagramUrl
+            label: "Instagram linki (opsiyonel)"
+            widget: string
+            required: false
+          - name: facebookUrl
+            label: "Facebook linki (opsiyonel)"
+            widget: string
+            required: false
+          - name: logo
+            label: "Logo (opsiyonel)"
+            widget: image
+            required: false
+            hint: "Boş bırakırsanız varsayılan HK logosu kullanılır."
+          - name: defaultWhatsappMessage
+            label: "Varsayılan WhatsApp mesajı"
+            widget: string
+            hint: "Genel WhatsApp butonuna basınca gönderilecek hazır metin."
+          - name: stickyCtaLabel
+            label: "Mobil altta sabit buton yazısı"
+            widget: string
+
+  # ── ANA SAYFA (singleton) ────────────────────────────────────────────────
+  - name: home
+    label: "Ana Sayfa"
+    description: "Ana sayfadaki başlıklar, alt metinler ve buton yazıları."
+    files:
+      - name: home
+        label: "Ana Sayfa İçerikleri"
+        file: "src/content/home/home.md"
+        format: yaml-frontmatter
+        fields:
+          - { name: heroEyebrow, label: "Başlık üstü etiket", widget: string }
+          - { name: heroHeading, label: "Ana başlık", widget: string }
+          - { name: heroSubtext, label: "Alt metin", widget: text }
+          - { name: primaryCtaLabel, label: "Ana buton yazısı (Ara)", widget: string }
+          - { name: whatsappCtaLabel, label: "WhatsApp buton yazısı", widget: string }
+          - { name: servicesSectionTitle, label: "Hizmetler bölümü — başlık", widget: string }
+          - { name: servicesSectionSubtitle, label: "Hizmetler bölümü — alt başlık", widget: string, required: false }
+          - { name: productsSectionTitle, label: "Ürünler bölümü — başlık", widget: string }
+          - { name: productsSectionSubtitle, label: "Ürünler bölümü — alt başlık", widget: string, required: false }
+          - { name: reviewsSectionTitle, label: "Yorumlar bölümü — başlık", widget: string }
+          - { name: closingHeading, label: "Kapanış başlığı", widget: string }
+          - { name: closingSubtext, label: "Kapanış alt metni", widget: text }
+
+  # ── HAKKIMIZDA (singleton — zengin metin) ────────────────────────────────
+  - name: about
+    label: "Hakkımızda"
+    description: "Hakkımızda sayfasının içeriği."
+    files:
+      - name: about
+        label: "Hakkımızda Metni"
+        file: "src/content/about/about.md"
+        format: frontmatter
+        fields:
+          - { name: title, label: "Başlık", widget: string }
+          - { name: subtitle, label: "Alt başlık", widget: string, required: false }
+          - name: body
+            label: "İçerik (zengin metin)"
+            widget: markdown
+
+  # ── HİZMETLER ────────────────────────────────────────────────────────────
+  - name: services
+    label: "Hizmetler"
+    label_singular: "Hizmet"
+    description: "Servisin sunduğu hizmetler."
+    folder: "src/content/services"
+    create: true
+    slug: "{{fields.title | slugify}}"
+    format: yaml-frontmatter
+    fields:
+      - { name: title, label: "Hizmet adı", widget: string }
+      - { name: description, label: "Kısa açıklama", widget: text }
+      - name: order
+        label: "Sıralama"
+        widget: number
+        default: 100
+        value_type: int
+        hint: "Küçük sayılar üstte görünür (10, 20, 30 gibi)."
+      - name: featured
+        label: "Ana sayfada göster"
+        widget: boolean
+        default: false
+        hint: "İşaretlerseniz ana sayfada 'Öne çıkan hizmetler' bölümünde görünür."
+
+  # ── ÜRÜNLER ──────────────────────────────────────────────────────────────
+  - name: products
+    label: "Ürünler"
+    label_singular: "Ürün"
+    description: "Yedek parça, aksesuar ve 2. el motosikletler."
+    folder: "src/content/products"
+    create: true
+    slug: "{{fields.name | slugify}}"
+    format: yaml-frontmatter
+    fields:
+      - { name: name, label: "Ürün adı", widget: string }
+      - name: category
+        label: "Kategori"
+        widget: select
+        options:
+          - { value: yedek-parca, label: "Yedek Parça" }
+          - { value: aksesuar, label: "Aksesuar" }
+          - { value: ikinci-el, label: "2. El Motosiklet" }
+      - name: price
+        label: "Fiyat (₺)"
+        widget: number
+        required: false
+        value_type: int
+        min: 0
+        hint: "Boş bırakırsanız kartta 'Fiyat için WhatsApp'tan sor' yazacak."
+      - name: image
+        label: "Görsel"
+        widget: image
+        required: false
+      - name: description
+        label: "Açıklama"
+        widget: text
+        required: false
+      - name: featured
+        label: "Ana sayfada göster"
+        widget: boolean
+        default: false
+        hint: "Ana sayfadaki 'Öne çıkan ürünler' bölümünde görünsün mü?"
+      - name: order
+        label: "Sıralama"
+        widget: number
+        default: 100
+        value_type: int
+      # ── Yalnızca 2. el motosikletler için ────────────────────────────────
+      - name: brand
+        label: "Marka (yalnızca 2. el)"
+        widget: string
+        required: false
+      - name: model
+        label: "Model (yalnızca 2. el)"
+        widget: string
+        required: false
+      - name: year
+        label: "Model yılı (yalnızca 2. el)"
+        widget: number
+        required: false
+        value_type: int
+      - name: km
+        label: "KM (yalnızca 2. el)"
+        widget: number
+        required: false
+        value_type: int
+        min: 0
+      - name: engineCc
+        label: "Motor hacmi cc (yalnızca 2. el)"
+        widget: number
+        required: false
+        value_type: int
+        min: 0
+      - name: condition
+        label: "Durum (yalnızca 2. el)"
+        widget: string
+        required: false
+        hint: "Örn: Hatasız / boyasız, Az kullanılmış vb."
+
+  # ── GALERİ ───────────────────────────────────────────────────────────────
+  - name: gallery
+    label: "Galeri"
+    label_singular: "Galeri Fotoğrafı"
+    description: "Servis ve iş fotoğrafları."
+    folder: "src/content/gallery"
+    create: true
+    slug: "{{fields.caption | slugify}}-{{filename}}"
+    format: yaml-frontmatter
+    fields:
+      - { name: image, label: "Fotoğraf", widget: image }
+      - { name: caption, label: "Açıklama (opsiyonel)", widget: string, required: false }
+      - name: order
+        label: "Sıralama"
+        widget: number
+        default: 100
+        value_type: int
+
+  # ── MÜŞTERİ YORUMLARI ────────────────────────────────────────────────────
+  - name: reviews
+    label: "Müşteri Yorumları"
+    label_singular: "Yorum"
+    folder: "src/content/reviews"
+    create: true
+    slug: "{{fields.author | slugify}}-{{year}}-{{month}}"
+    format: yaml-frontmatter
+    fields:
+      - { name: author, label: "Yorumu yazan", widget: string }
+      - name: rating
+        label: "Puan (1-5 yıldız)"
+        widget: number
+        default: 5
+        value_type: int
+        min: 1
+        max: 5
+      - { name: text, label: "Yorum metni", widget: text }
+      - { name: date, label: "Tarih", widget: datetime, date_format: "YYYY-MM-DD", time_format: false, picker_utc: true }
+      - name: featured
+        label: "Ana sayfada göster"
+        widget: boolean
+        default: false
+
+  # ── SIK SORULAN SORULAR ──────────────────────────────────────────────────
+  - name: faq
+    label: "Sık Sorulan Sorular"
+    label_singular: "Soru"
+    folder: "src/content/faq"
+    create: true
+    slug: "{{fields.question | slugify}}"
+    format: yaml-frontmatter
+    fields:
+      - { name: question, label: "Soru", widget: string }
+      - { name: answer, label: "Cevap", widget: text }
+      - name: order
+        label: "Sıralama"
+        widget: number
+        default: 100
+        value_type: int
