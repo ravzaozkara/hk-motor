@@ -1,0 +1,321 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import { waLink } from "../lib/site";
+import { getSite } from "../lib/content";
+
+const site = await getSite();
+---
+
+<BaseLayout
+  title={`İletişim — ${site.businessName}`}
+  description={`${site.businessName} — adres, çalışma saatleri, telefon, WhatsApp ve harita. ${site.address}`}
+>
+  <section class="section section--dark page-hero">
+    <div class="container">
+      <p class="eyebrow">İletişim</p>
+      <h1>Bize ulaşın.</h1>
+      <p class="lead">
+        Servisimize gelmeden önce arayıp durumu paylaşırsanız, size özel
+        hazırlıklı bekleriz. Yolda kaldıysanız — hemen arayın.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container contact-grid">
+      {/* ── Info card ────────────────────────────── */}
+      <div class="contact-info">
+        <SectionHeader title="Adres, saatler, telefon" />
+
+        <div class="info-item">
+          <h3>Adres</h3>
+          <p>{site.address}</p>
+        </div>
+
+        <div class="info-item">
+          <h3>Çalışma Saatleri</h3>
+          <p>{site.hoursText}</p>
+          <p class="muted">{site.roadsideAreaText}</p>
+        </div>
+
+        <div class="info-item">
+          <h3>Telefon</h3>
+          <p>
+            <a href={`tel:${site.phonePrimaryTel}`}>{site.phonePrimary}</a>
+            <span class="muted"> — arama + WhatsApp</span>
+          </p>
+          {site.phoneSecondary && site.phoneSecondaryTel && (
+            <p>
+              <a href={`tel:${site.phoneSecondaryTel}`}>{site.phoneSecondary}</a>
+              <span class="muted"> — arama</span>
+            </p>
+          )}
+        </div>
+
+        <div class="cta-row">
+          <a class="btn btn--accent" href={`tel:${site.phonePrimaryTel}`}>
+            Hemen ara
+          </a>
+          <a
+            class="btn btn--whatsapp"
+            href={waLink(site.phoneWhatsapp, site.defaultWhatsappMessage)}
+            target="_blank"
+            rel="noopener"
+          >
+            WhatsApp
+          </a>
+        </div>
+      </div>
+
+      {/* ── Map ─────────────────────────────────── */}
+      <div class="map-wrapper" aria-label="Harita üzerinde konumumuz">
+        <iframe
+          src={site.mapEmbedUrl}
+          title={`${site.businessName} konumu`}
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
+  {/* ── Contact form ───────────────────────────── */}
+  <section class="section section--surface">
+    <div class="container form-wrapper">
+      <SectionHeader
+        title="Mesaj bırakın"
+        subtitle="Formu doldurun, en kısa sürede size dönüş yapalım. Acil durumlar için doğrudan aramanızı öneririz."
+      />
+
+      <div id="form-success" class="alert alert--success" role="status" hidden>
+        <strong>Teşekkürler!</strong> Mesajınız bize ulaştı. En kısa sürede
+        dönüş yapacağız.
+      </div>
+
+      <form
+        name="contact"
+        method="POST"
+        action="/iletisim?success=1"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        class="contact-form"
+      >
+        {/* Netlify form name marker (required for static sites) */}
+        <input type="hidden" name="form-name" value="contact" />
+        {/* Honeypot — real users won't fill this */}
+        <p class="hp">
+          <label>Bu alanı doldurmayın: <input name="bot-field" /></label>
+        </p>
+
+        <div class="field">
+          <label for="cf-name">Ad Soyad</label>
+          <input
+            id="cf-name"
+            name="name"
+            type="text"
+            required
+            autocomplete="name"
+            placeholder="Adınız Soyadınız"
+          />
+        </div>
+
+        <div class="field">
+          <label for="cf-phone">Telefon</label>
+          <input
+            id="cf-phone"
+            name="phone"
+            type="tel"
+            required
+            autocomplete="tel"
+            inputmode="tel"
+            placeholder="05xx xxx xx xx"
+          />
+        </div>
+
+        <div class="field">
+          <label for="cf-message">Mesajınız</label>
+          <textarea
+            id="cf-message"
+            name="message"
+            required
+            rows="5"
+            placeholder="Motosikletiniz, hizmet talebiniz veya sorunuz hakkında kısa bilgi verin."
+          ></textarea>
+        </div>
+
+        {/*
+          Bir gün KVKK/aydınlatma metni gerekirse buraya küçük bir
+          <p class="kvkk"> bloğu bırakıldı — silmeden içeriği güncelleyebilirsiniz.
+        */}
+        {/* <p class="kvkk">Formu göndererek KVKK aydınlatma metnini okuduğunuzu kabul edersiniz.</p> */}
+
+        <button type="submit" class="btn btn--accent submit-btn">
+          Mesajı gönder
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    // Netlify redirects to /iletisim?success=1 after submission — reveal
+    // the banner and scroll it into view, then clean the URL.
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("success") === "1") {
+      const banner = document.getElementById("form-success");
+      if (banner) {
+        banner.hidden = false;
+        banner.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      const url = new URL(window.location.href);
+      url.searchParams.delete("success");
+      history.replaceState(null, "", url.toString());
+    }
+  </script>
+</BaseLayout>
+
+<style>
+  .page-hero { padding-block: clamp(3rem, 6vw, 5rem); }
+  .page-hero .lead {
+    color: var(--color-on-dark-muted);
+    max-width: 60ch;
+    font-size: 1.05rem;
+  }
+  .eyebrow {
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-accent);
+    font-size: 0.85rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .contact-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+  @media (min-width: 900px) {
+    .contact-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  .info-item h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent-ink);
+    background: rgba(255, 180, 0, 0.16);
+    display: inline-block;
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
+    margin-bottom: 0.4rem;
+  }
+  .info-item p {
+    margin: 0.1rem 0;
+    font-size: 1rem;
+  }
+  .info-item a {
+    color: var(--color-text);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 600;
+  }
+  .info-item a:hover { color: var(--color-accent-ink); }
+
+  .muted { color: var(--color-text-muted); font-size: 0.92rem; }
+
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .map-wrapper {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    min-height: 340px;
+    aspect-ratio: 4 / 3;
+  }
+  .map-wrapper iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .form-wrapper { max-width: 640px; }
+
+  .contact-form {
+    display: grid;
+    gap: 1rem;
+    background: var(--color-bg);
+    padding: 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+  }
+  .field {
+    display: grid;
+    gap: 0.4rem;
+  }
+  .field label {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .field input,
+  .field textarea {
+    font: inherit;
+    padding: 0.75rem 0.9rem;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    color: var(--color-text);
+    resize: vertical;
+    min-height: 48px;
+  }
+  .field textarea { line-height: 1.5; }
+  .field input:focus,
+  .field textarea:focus {
+    border-color: var(--color-accent);
+    outline: none;
+  }
+
+  .submit-btn { justify-self: start; margin-top: 0.25rem; }
+
+  .hp {
+    position: absolute;
+    left: -9999px;
+    height: 0;
+    overflow: hidden;
+    margin: 0;
+  }
+
+  .alert {
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-sm);
+    margin-bottom: 1.25rem;
+    border: 1px solid transparent;
+  }
+  .alert--success {
+    background: rgba(37, 211, 102, 0.12);
+    border-color: rgba(37, 211, 102, 0.4);
+    color: #0a5a2a;
+  }
+
+  .kvkk {
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+  }
+</style>

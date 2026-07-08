@@ -1,6 +1,6 @@
 # PROGRESS.md — HK Motors Website
 
-**Current position:** Phase 6 next.
+**Current position:** Phase 7 next.
 
 > At session start: read CLAUDE.md, then continue from the first unchecked item below.
 > At the end of each phase: check its boxes, add notes, and git commit.
@@ -12,13 +12,14 @@
 - [x] **Phase 3 — Services page.**
 - [x] **Phase 4 — Products page:** grid + category filter + pricing rule + WhatsApp "Sor" buttons + 2nd-hand fields.
 - [x] **Phase 5 — Gallery + About + FAQ + Reviews pages.**
-- [ ] **Phase 6 — Contact page:** address, hours, clickable phones, WhatsApp, embedded map, Netlify form.
+- [x] **Phase 6 — Contact page:** address, hours, clickable phones, WhatsApp, embedded map, Netlify form.
 - [ ] **Phase 7 — Admin panel:** Sveltia CMS at /admin, Turkish labels, image upload, all collections editable.
 - [ ] **Phase 8 — Polish:** SEO/meta/OG, performance, mobile QA, favicon, placeholder logo, image optimization, 404.
 - [ ] **Phase 9 — Deploy + handover:** Netlify deploy; test live form + admin end to end; write Turkish KULLANIM.md guide.
 
 ## Decisions / notes log
 - **2026-07-07 · Phase 0:** Astro 5 (static output), plain CSS with custom-property design tokens (no Tailwind — keeps the small site simple). Fonts: Barlow (headings) + Inter (body) via Google Fonts. Global tokens live in `src/styles/global.css`; business info + nav + `waLink()` helper live in `src/lib/site.ts` (temporary — Phase 1 moves the singleton into the `site` content collection, keeping the same shape). Sticky mobile CTA renders only ≤768px and calls the primary number. Header nav collapses into a mobile drawer ≤900px. Verified: `npm run build` succeeds and `npm run dev` serves the home page with the expected phone/WhatsApp/CTA strings.
+- **2026-07-08 · Phase 6:** `/iletisim` — two-column info-card + Google Maps iframe (site.mapEmbedUrl), then a Netlify contact form (name/phone/message). Wired with `data-netlify="true"`, `netlify-honeypot="bot-field"`, a hidden `form-name=contact` marker (needed for SSG detection), and `action="/iletisim?success=1"`. Gotcha: the initial version read `Astro.url.searchParams` in the frontmatter — that runs at build time for static pages and would always be false. Fixed by making the success banner start `hidden`, then a client-side script reads `window.location.search`, reveals + scrolls the banner, and cleans the URL via `history.replaceState`. Placeholder KVKK-note block left commented in the form for the owner. Verified: form markers, map iframe, both `tel:` phone links, and success banner element all present in built HTML.
 - **2026-07-07 · Phase 5:** Four content pages, all data-driven. `/galeri` — CSS-grid figure/figcaption gallery with hover zoom (6 items). `/hakkimizda` — renders the `about.md` markdown body via Astro's `render()` + `<Content />`, scoped `.prose` styles for headings/lists/links using `:global()` (needed inside scoped `<style>` because Astro's markdown output isn't scoped). `/sss` — pure `<details>/<summary>` accordion (no JS, first item open by default, chevron rotates on `[open]`, 6 items). `/yorumlar` — full review grid (4 items) with a computed average rating (`1,0`-formatted for tr-TR). Build clean, `astro check` clean.
 - **2026-07-07 · Phase 4:** `/urunler` renders all 6 seeded products as `ProductCard`s with a client-side category filter (pill buttons for Hepsi / Yedek Parça / Aksesuar / 2. El Motosiklet, each showing a live count). Filter state syncs to the `?kategori=` query param via `history.replaceState` so shares/reloads keep the selection. Grid rendered in HTML (no JS needed for content): 3 yedek-parca, 2 aksesuar, 1 ikinci-el. Empty-state hides when at least one card is visible. Verified: pricing rule works (₺/fallback), Honda CB125F 2022 shows full Marka/Model/Yıl/KM/Motor/Durum spec grid.
 - **2026-07-07 · Phase 3:** `/hizmetler` renders the full 15-item services list via the existing `ServiceCard` grid, plus a dark page-hero band and a surface CTA band with call/WhatsApp buttons. Verified 15 service cards in the built HTML.
