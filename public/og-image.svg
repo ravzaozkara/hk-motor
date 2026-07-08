@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="HK Motors">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1f2228"/>
+      <stop offset="1" stop-color="#14161a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Amber accent bar -->
+  <rect x="0" y="600" width="1200" height="30" fill="#ffb400"/>
+
+  <!-- Logo tile -->
+  <g transform="translate(90 130)">
+    <rect width="140" height="140" rx="18" fill="#ffb400"/>
+    <text x="70" y="98" text-anchor="middle" font-family="Barlow, Arial, sans-serif" font-weight="800" font-size="72" fill="#14161a">HK</text>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="260" y="200" font-family="Barlow, Arial, sans-serif" font-weight="800" font-size="72" fill="#f6f6f7">HK Motors</text>
+  <text x="260" y="252" font-family="Barlow, Arial, sans-serif" font-weight="600" font-size="30" fill="#ffb400" letter-spacing="4">MOTOSİKLET SERVİSİ</text>
+
+  <!-- Tagline -->
+  <text x="90" y="380" font-family="Barlow, Arial, sans-serif" font-weight="700" font-size="60" fill="#f6f6f7">
+    <tspan x="90" dy="0">Bakım, onarım ve</tspan>
+    <tspan x="90" dy="72" fill="#ffb400">7/24 yol yardımı.</tspan>
+  </text>
+
+  <!-- Footer info -->
+  <text x="90" y="558" font-family="Inter, Arial, sans-serif" font-weight="500" font-size="24" fill="#b3b5ba">
+    Eyüpsultan / İstanbul · +90 537 213 6728
+  </text>
+</svg>

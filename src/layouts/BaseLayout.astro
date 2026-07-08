@@ -8,13 +8,20 @@ import { getSite } from "../lib/content";
 type Props = {
   title?: string;
   description?: string;
+  image?: string; // absolute or root-relative path for OG/Twitter card
+  noindex?: boolean;
 };
 
 const site = await getSite();
 const {
   title = `${site.businessName} — ${site.tagline}`,
   description = "Motosiklet servisi, bakım, onarım ve 7/24 yol yardımı. Eyüpsultan, İstanbul.",
+  image = "/og-image.svg",
+  noindex = false,
 } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
+const ogImage = new URL(image, Astro.site ?? Astro.url.origin);
 ---
 
 <!doctype html>
@@ -22,16 +29,58 @@ const {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="color-scheme" content="light" />
     <meta name="theme-color" content="#14161a" />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonical.toString()} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.businessName} />
+    <meta property="og:locale" content="tr_TR" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.toString()} />
+    <meta property="og:image" content={ogImage.toString()} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage.toString()} />
+
+    <!-- Fonts (preconnect + non-blocking load with swap) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap"
     />
+
+    <!-- LocalBusiness structured data -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "AutoRepair",
+      name: site.businessName,
+      description,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: site.address,
+        addressLocality: "Eyüpsultan",
+        addressRegion: "İstanbul",
+        addressCountry: "TR",
+      },
+      telephone: site.phonePrimary,
+      openingHours: "Mo-Su 09:00-21:00",
+      areaServed: site.roadsideAreaText,
+      url: (Astro.site ?? Astro.url.origin).toString(),
+      image: ogImage.toString(),
+    })} />
+
     <title>{title}</title>
   </head>
   <body>

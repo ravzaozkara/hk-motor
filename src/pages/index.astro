@@ -24,7 +24,10 @@ const featuredProducts = products.filter((p) => p.data.featured).slice(0, 4);
 const featuredReviews = reviews.filter((r) => r.data.featured).slice(0, 3);
 ---
 
-<BaseLayout>
+<BaseLayout
+  title={`${site.businessName} — ${site.tagline}`}
+  description="Eyüpsultan HK Motors: motosiklet bakım, onarım, yağ ve filtre değişimi, lastik, fren, motor revizyonu ve 7/24 yol yardımı. Uzun yıllara dayanan tecrübe, uygun fiyat."
+>
   {/* ── Hero ─────────────────────────────────────────── */}
   <section class="section section--dark hero">
     <div class="container hero-grid">
