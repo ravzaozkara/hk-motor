@@ -1,6 +1,6 @@
 # PROGRESS.md — HK Motors Website
 
-**Current position:** Phase 5 next.
+**Current position:** Phase 6 next.
 
 > At session start: read CLAUDE.md, then continue from the first unchecked item below.
 > At the end of each phase: check its boxes, add notes, and git commit.
@@ -11,7 +11,7 @@
 - [x] **Phase 2 — Home page:** hero, featured services, featured products, reviews snippet, CTAs.
 - [x] **Phase 3 — Services page.**
 - [x] **Phase 4 — Products page:** grid + category filter + pricing rule + WhatsApp "Sor" buttons + 2nd-hand fields.
-- [ ] **Phase 5 — Gallery + About + FAQ + Reviews pages.**
+- [x] **Phase 5 — Gallery + About + FAQ + Reviews pages.**
 - [ ] **Phase 6 — Contact page:** address, hours, clickable phones, WhatsApp, embedded map, Netlify form.
 - [ ] **Phase 7 — Admin panel:** Sveltia CMS at /admin, Turkish labels, image upload, all collections editable.
 - [ ] **Phase 8 — Polish:** SEO/meta/OG, performance, mobile QA, favicon, placeholder logo, image optimization, 404.
@@ -19,6 +19,7 @@
 
 ## Decisions / notes log
 - **2026-07-07 · Phase 0:** Astro 5 (static output), plain CSS with custom-property design tokens (no Tailwind — keeps the small site simple). Fonts: Barlow (headings) + Inter (body) via Google Fonts. Global tokens live in `src/styles/global.css`; business info + nav + `waLink()` helper live in `src/lib/site.ts` (temporary — Phase 1 moves the singleton into the `site` content collection, keeping the same shape). Sticky mobile CTA renders only ≤768px and calls the primary number. Header nav collapses into a mobile drawer ≤900px. Verified: `npm run build` succeeds and `npm run dev` serves the home page with the expected phone/WhatsApp/CTA strings.
+- **2026-07-07 · Phase 5:** Four content pages, all data-driven. `/galeri` — CSS-grid figure/figcaption gallery with hover zoom (6 items). `/hakkimizda` — renders the `about.md` markdown body via Astro's `render()` + `<Content />`, scoped `.prose` styles for headings/lists/links using `:global()` (needed inside scoped `<style>` because Astro's markdown output isn't scoped). `/sss` — pure `<details>/<summary>` accordion (no JS, first item open by default, chevron rotates on `[open]`, 6 items). `/yorumlar` — full review grid (4 items) with a computed average rating (`1,0`-formatted for tr-TR). Build clean, `astro check` clean.
 - **2026-07-07 · Phase 4:** `/urunler` renders all 6 seeded products as `ProductCard`s with a client-side category filter (pill buttons for Hepsi / Yedek Parça / Aksesuar / 2. El Motosiklet, each showing a live count). Filter state syncs to the `?kategori=` query param via `history.replaceState` so shares/reloads keep the selection. Grid rendered in HTML (no JS needed for content): 3 yedek-parca, 2 aksesuar, 1 ikinci-el. Empty-state hides when at least one card is visible. Verified: pricing rule works (₺/fallback), Honda CB125F 2022 shows full Marka/Model/Yıl/KM/Motor/Durum spec grid.
 - **2026-07-07 · Phase 3:** `/hizmetler` renders the full 15-item services list via the existing `ServiceCard` grid, plus a dark page-hero band and a surface CTA band with call/WhatsApp buttons. Verified 15 service cards in the built HTML.
 - **2026-07-07 · Phase 2:** Built reusable card components used across the home page and Phases 3–5: `ServiceCard`, `ProductCard` (handles the ikinci-el spec grid + pricing rule + per-product WhatsApp deep-link built from `productWhatsappMessage()`), `ReviewCard` (with quote marks in accent colour), `StarRating`, `SectionHeader`. Home page pulls 4 featured services, 4 featured products, 3 featured reviews (all `.data.featured === true`) plus a closing dark CTA band. Verified in built HTML: correct titles, prices render with tr-TR TRY formatting (₺1.850, ₺68.500), Zincir Seti falls back to "Fiyat için WhatsApp'tan sor" as designed, per-product wa.me URLs contain the correct product name pre-encoded in Turkish. Build + `astro check` both clean.

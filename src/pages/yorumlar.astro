@@ -1,0 +1,81 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import ReviewCard from "../components/ReviewCard.astro";
+import { getSite, getReviews } from "../lib/content";
+
+const site = await getSite();
+const reviews = await getReviews();
+
+const avg =
+  reviews.length > 0
+    ? reviews.reduce((sum, r) => sum + r.data.rating, 0) / reviews.length
+    : 0;
+const avgLabel = avg.toFixed(1).replace(".", ",");
+---
+
+<BaseLayout
+  title={`Müşteri Yorumları — ${site.businessName}`}
+  description="HK Motors müşterilerinin bizimle ilgili deneyimleri ve yorumları."
+>
+  <section class="section section--dark page-hero">
+    <div class="container">
+      <p class="eyebrow">Müşteri Yorumları</p>
+      <h1>Müşterilerimiz ne diyor?</h1>
+      {reviews.length > 0 && (
+        <p class="lead">
+          {reviews.length} yorumun ortalaması <strong>{avgLabel} / 5</strong>.
+        </p>
+      )}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeader title="Tüm yorumlar" />
+      {reviews.length === 0 ? (
+        <p class="empty">Henüz yorum eklenmemiş.</p>
+      ) : (
+        <div class="grid">
+          {reviews.map((r) => (
+            <ReviewCard
+              author={r.data.author}
+              rating={r.data.rating}
+              text={r.data.text}
+              date={r.data.date}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero { padding-block: clamp(3rem, 6vw, 5rem); }
+  .page-hero .lead {
+    color: var(--color-on-dark-muted);
+    font-size: 1.05rem;
+  }
+  .page-hero .lead strong { color: var(--color-accent); }
+  .eyebrow {
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-accent);
+    font-size: 0.85rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .empty {
+    text-align: center;
+    color: var(--color-text-muted);
+    padding: 3rem 1rem;
+  }
+</style>

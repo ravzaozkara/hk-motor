@@ -1,0 +1,140 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import { waLink } from "../lib/site";
+import { getSite, getFaq } from "../lib/content";
+
+const site = await getSite();
+const faq = await getFaq();
+---
+
+<BaseLayout
+  title={`Sık Sorulan Sorular — ${site.businessName}`}
+  description="HK Motors hakkında sık sorulan sorular ve cevapları."
+>
+  <section class="section section--dark page-hero">
+    <div class="container">
+      <p class="eyebrow">SSS</p>
+      <h1>Sık Sorulan Sorular</h1>
+      <p class="lead">
+        Cevabını burada bulamadığınız her şey için WhatsApp'tan yazın.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container faq-wrapper">
+      <SectionHeader title="Aklınıza takılanlar" />
+      <div class="faq">
+        {
+          faq.map((item, i) => (
+            <details class="faq-item" open={i === 0}>
+              <summary>
+                <span>{item.data.question}</span>
+                <svg class="chev" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                  <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </summary>
+              <div class="faq-answer">{item.data.answer}</div>
+            </details>
+          ))
+        }
+      </div>
+
+      <div class="ask">
+        <p>Sorunuzun cevabı yukarıda yok mu?</p>
+        <div class="ctas">
+          <a
+            class="btn btn--whatsapp"
+            href={waLink(site.phoneWhatsapp, "Merhaba, bir sorum var.")}
+            target="_blank"
+            rel="noopener"
+          >
+            WhatsApp'tan sor
+          </a>
+          <a class="btn btn--accent" href={`tel:${site.phonePrimaryTel}`}>Ara</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero { padding-block: clamp(3rem, 6vw, 5rem); }
+  .page-hero .lead {
+    color: var(--color-on-dark-muted);
+    max-width: 60ch;
+    font-size: 1.05rem;
+  }
+  .eyebrow {
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-accent);
+    font-size: 0.85rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .faq-wrapper { max-width: 780px; }
+  .faq {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--color-bg);
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--color-border);
+  }
+  .faq-item:last-child { border-bottom: 0; }
+
+  .faq-item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 1.1rem 1.25rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    color: var(--color-text);
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary:hover { color: var(--color-accent-ink); background: rgba(255,180,0,0.06); }
+  .faq-item[open] summary { color: var(--color-accent-ink); background: rgba(255,180,0,0.08); }
+
+  .chev {
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+  .faq-item[open] .chev { transform: rotate(180deg); }
+
+  .faq-answer {
+    padding: 0 1.25rem 1.25rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  .ask {
+    margin-top: 2.5rem;
+    padding: 1.5rem;
+    background: var(--color-surface);
+    border-radius: var(--radius);
+    text-align: center;
+  }
+  .ask p {
+    margin: 0 0 1rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+  }
+</style>

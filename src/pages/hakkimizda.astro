@@ -1,0 +1,92 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { render } from "astro:content";
+import { waLink } from "../lib/site";
+import { getSite, getAbout } from "../lib/content";
+
+const site = await getSite();
+const about = await getAbout();
+const { Content } = await render(about);
+---
+
+<BaseLayout
+  title={`${about.data.title} — ${site.businessName}`}
+  description={about.data.subtitle}
+>
+  <section class="section section--dark page-hero">
+    <div class="container">
+      <p class="eyebrow">Hakkımızda</p>
+      <h1>{about.data.title}</h1>
+      {about.data.subtitle && <p class="lead">{about.data.subtitle}</p>}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container prose">
+      <Content />
+      <div class="cta-row">
+        <a class="btn btn--accent" href={`tel:${site.phonePrimaryTel}`}>
+          {site.phonePrimary}
+        </a>
+        <a
+          class="btn btn--whatsapp"
+          href={waLink(site.phoneWhatsapp, site.defaultWhatsappMessage)}
+          target="_blank"
+          rel="noopener"
+        >
+          WhatsApp'tan yaz
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero { padding-block: clamp(3rem, 6vw, 5rem); }
+  .page-hero .lead {
+    color: var(--color-on-dark-muted);
+    max-width: 60ch;
+    font-size: 1.05rem;
+  }
+  .eyebrow {
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-accent);
+    font-size: 0.85rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .prose {
+    max-width: 68ch;
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+  .prose :global(h2),
+  .prose :global(h3) {
+    margin-top: 2rem;
+  }
+  .prose :global(ul) {
+    padding-left: 1.25rem;
+    margin: 1rem 0;
+  }
+  .prose :global(li) {
+    margin-bottom: 0.5rem;
+  }
+  .prose :global(a) {
+    color: var(--color-accent-ink);
+    background: rgba(255, 180, 0, 0.18);
+    padding: 0 3px;
+    border-radius: 3px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .prose :global(strong) { font-weight: 700; }
+
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+</style>
