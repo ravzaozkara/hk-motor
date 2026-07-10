@@ -23,3 +23,6 @@ pnpm-debug.log*
 
 # astro
 .astro/
+
+# netlify cli local cache
+.netlify/
