@@ -1,10 +1,10 @@
 ---
 title: Hakkımızda
-subtitle: Eyüpsultan'da uzun yıllardır motorcuların yanındayız.
+subtitle: Yeşilpınar'da uzun yıllardır motorcuların yanındayız.
 ---
 
 **HK Motors**, motosiklet tutkusunu ve mesleki tecrübeyi birleştiren bir aile
-işletmesidir. Eyüpsultan Çırçır'daki servisimizde her marka ve model motosiklet
+işletmesidir. Yeşilpınar Çırçır'daki servisimizde her marka ve model motosiklet
 için periyodik bakım, onarım, elektrik-elektronik arıza tespiti ve motor
 revizyonu hizmetleri sunuyoruz.
 

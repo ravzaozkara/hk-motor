@@ -21,7 +21,7 @@ parts, accessories, and second-hand motorcycles — inquiries via WhatsApp/phone
 
 ## Business info (default content)
 - Name: HK Motors
-- Address: Çırçır Mah. Sezai Karakoç Cad. No:27/29 Eyüpsultan/İstanbul
+- Address: Çırçır Mah. Sezai Karakoç Cad. No:27/29 Yeşilpınar, Eyupsultan / İstanbul
 - Hours: 09:00–21:00
 - Roadside: 7/24, İstanbul Avrupa
 - Phone primary (call + WhatsApp): +90 537 213 6728 → wa.me/905372136728 → tel:+905372136728

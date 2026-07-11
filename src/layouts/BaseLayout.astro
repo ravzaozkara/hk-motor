@@ -15,7 +15,7 @@ type Props = {
 const site = await getSite();
 const {
   title = `${site.businessName} — ${site.tagline}`,
-  description = "Motosiklet servisi, bakım, onarım ve 7/24 yol yardımı. Eyüpsultan, İstanbul.",
+  description = "Motosiklet servisi, bakım, onarım ve 7/24 yol yardımı. Yeşilpınar İstanbul.",
   image = "/og-image.svg",
   noindex = false,
 } = Astro.props;
@@ -70,7 +70,7 @@ const ogImage = new URL(image, Astro.site ?? Astro.url.origin);
       address: {
         "@type": "PostalAddress",
         streetAddress: site.address,
-        addressLocality: "Eyüpsultan",
+        addressLocality: "Yeşilpınar",
         addressRegion: "İstanbul",
         addressCountry: "TR",
       },

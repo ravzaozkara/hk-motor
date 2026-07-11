@@ -1,7 +1,7 @@
 ---
 businessName: HK Motors
 tagline: Motosiklet Servisi ve 7/24 Yol Yardımı
-address: Çırçır Mah. Sezai Karakoç Cad. No:27/29 Eyüpsultan/İstanbul
+address: Çırçır Mah. Sezai Karakoç Cad. No:27/29 Yeşilpınar, Eyupsultan / İstanbul
 mapEmbedUrl: https://www.google.com/maps?q=%C3%87%C4%B1r%C3%A7%C4%B1r%20Mah.%20Sezai%20Karako%C3%A7%20Cad.%20No%3A27%2F29%20Eyupsultan%20Istanbul&output=embed
 hoursText: Her gün 09:00 – 21:00
 roadsideAreaText: 7/24 yol yardımı — İstanbul Avrupa Yakası

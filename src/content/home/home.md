@@ -1,5 +1,5 @@
 ---
-heroEyebrow: Eyüpsultan / İstanbul
+heroEyebrow: Yeşilpınar İstanbul
 heroHeading: Motosikletiniz güvenli ellerde.
 heroSubtext: Bakım, onarım ve 7/24 yol yardımı. Deneyimli ekip, hızlı çözüm, uygun fiyat.
 primaryCtaLabel: Acil Yol Yardımı — Ara
