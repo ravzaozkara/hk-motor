@@ -2,7 +2,7 @@ import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  site: "https://hkmotors.netlify.app",
+  site: "https://hkmotor.netlify.app",
   output: "static",
   trailingSlash: "ignore",
   build: {

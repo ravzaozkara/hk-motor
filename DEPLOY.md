@@ -6,13 +6,13 @@ Owner-facing guide lives in [`KULLANIM.md`](./KULLANIM.md).
 
 Collect these first — the deploy steps below refer back to them.
 
-| # | Value | Format | Where it comes from | Where it goes |
-|---|---|---|---|---|
-| 1 | **GitHub repo slug** | `owner/name` (e.g. `ravza/hkmotor`) | Created in step [1](#1-github) | `public/admin/config.yml` → `backend.repo` |
-| 2 | **Default branch name** | usually `main` | GitHub repo settings | `public/admin/config.yml` → `backend.branch` (already `main`; change only if you use a different default) |
-| 3 | **Live Netlify URL** | `https://<subdomain>.netlify.app` (no trailing slash) | Assigned in step [2](#2-netlify) | `astro.config.mjs` → `site:` **and** GitHub OAuth App → Homepage URL **and** `public/admin/config.yml` → `site_url:` |
-| 4 | **GitHub OAuth App Client ID** | 20-char alphanumeric string | Created in step [4](#4-sveltia-cms-auth-github-oauth-pkce) | `public/admin/config.yml` → `backend.app_id` |
-| 5 | **OAuth callback URL** | **fixed:** `https://cms.sveltia.dev/callback` | Sveltia's hosted PKCE relay | GitHub OAuth App → Authorization callback URL |
+| # | Status | Value | Format | Where it comes from | Where it goes |
+|---|---|---|---|---|---|
+| 1 | ✅ done | **GitHub repo slug** — `ravzaozkara/hk-motor` | `owner/name` | Created in step [1](#1-github) | `public/admin/config.yml` → `backend.repo` (still needs to be filled) |
+| 2 | ✅ done | **Default branch name** — `main` | usually `main` | GitHub repo settings | `public/admin/config.yml` → `backend.branch` (already `main`) |
+| 3 | ✅ done | **Live Netlify URL** — `https://hkmotor.netlify.app` | `https://<subdomain>.netlify.app` (no trailing slash) | Assigned in step [2](#2-netlify) | `astro.config.mjs` → `site:` ✅ · `public/admin/config.yml` → `site_url:` ✅ · GitHub OAuth App → Homepage URL (still to do) |
+| 4 | ⏳ pending | **GitHub OAuth App Client ID** | 20-char alphanumeric string | Created in step [4](#4-sveltia-cms-auth-github-oauth-pkce) | `public/admin/config.yml` → `backend.app_id` |
+| 5 | ⏳ pending | **OAuth callback URL** — **fixed:** `https://cms.sveltia.dev/callback` | fixed | Sveltia's hosted PKCE relay | GitHub OAuth App → Authorization callback URL |
 
 Nothing else is required — Sveltia's `auth_type: pkce` means no client secret and
 no self-hosted auth worker. Netlify Forms auto-registers from the built HTML
@@ -37,7 +37,7 @@ no self-hosted auth worker. Netlify Forms auto-registers from the built HTML
    - Node version: 22
 3. Deploy. Netlify assigns a free `*.netlify.app` subdomain — take note of it.
 4. **Set the canonical site URL:** open [`astro.config.mjs`](./astro.config.mjs)
-   and update `site:` to the actual URL (currently `https://hkmotors.netlify.app`),
+   and update `site:` to the actual URL (currently `https://hkmotor.netlify.app`),
    then commit + push. This makes sitemap URLs, OG tags, and canonicals correct.
 
 ## 3) Netlify Forms (contact form)

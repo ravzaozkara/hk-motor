@@ -13,7 +13,7 @@ adı/şifreniz ve internet bağlantısı yeterli.
 
 1. Tarayıcınızı açın.
 2. Adres çubuğuna sitenizin adresinin sonuna `/admin` ekleyin:
-   `https://SITENIZ/admin` (örn. `https://hkmotors.netlify.app/admin`).
+   `https://SITENIZ/admin` (örn. `https://hkmotor.netlify.app/admin`).
 3. Karşınıza **"GitHub ile giriş"** butonu çıkar.
 4. Butona basın — HK Motors için ayrılmış GitHub hesabının kullanıcı adı ve
    şifresini girin (bu bilgiler size ayrıca teslim edildi).

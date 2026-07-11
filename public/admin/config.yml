@@ -11,7 +11,7 @@
 #      (örn. "kullanici-adi/hkmotor"). Repo private olabilir.
 #   2) GitHub'da bir OAuth App oluşturun (Settings → Developer settings →
 #      OAuth Apps → New OAuth App).
-#      - Homepage URL: canlı site adresi (örn. https://hkmotors.netlify.app)
+#      - Homepage URL: canlı site adresi (örn. https://hkmotor.netlify.app)
 #      - Authorization callback URL: https://cms.sveltia.dev/callback
 #   3) Oluşturulan Client ID'yi aşağıdaki `backend.app_id` alanına yazın.
 #      Client Secret gerekmiyor — Sveltia PKCE ile güvenli akış kullanıyor.
@@ -38,7 +38,7 @@ media_folder: "public/uploads"
 public_folder: "/uploads"
 
 # Editör açıklaması
-site_url: https://hkmotors.netlify.app
+site_url: https://hkmotor.netlify.app
 logo_url: /logo.svg
 
 # =============================================================================
