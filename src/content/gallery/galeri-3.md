@@ -1,5 +1,5 @@
 ---
-image: /uploads/galeri-3.svg
-caption: Periyodik bakımdan bir kare
+image: /uploads/galeri-3.webp
+caption: Motor tamiri sırasında
 order: 30
 ---

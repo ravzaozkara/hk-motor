@@ -1,5 +1,5 @@
 ---
-image: /uploads/galeri-1.svg
-caption: Eyüpsultan Çırçır'daki servisimiz
+image: /uploads/galeri-1.webp
+caption: Serviste bakım gören motosikletler
 order: 10
 ---

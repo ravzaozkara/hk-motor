@@ -1,5 +1,5 @@
 ---
-image: /uploads/galeri-5.svg
-caption: Fren bakımı
+image: /uploads/galeri-5.webp
+caption: Şehir sokağında motosikletler
 order: 50
 ---

@@ -29,7 +29,16 @@ const featuredReviews = reviews.filter((r) => r.data.featured).slice(0, 3);
   description="Eyüpsultan HK Motors: motosiklet bakım, onarım, yağ ve filtre değişimi, lastik, fren, motor revizyonu ve 7/24 yol yardımı. Uzun yıllara dayanan tecrübe, uygun fiyat."
 >
   {/* ── Hero ─────────────────────────────────────────── */}
-  <section class="section section--dark hero">
+  <section class="section section--dark hero" aria-label="HK Motors — anasayfa">
+    <img
+      class="hero__bg"
+      src="/images/hero.webp"
+      alt=""
+      aria-hidden="true"
+      fetchpriority="high"
+      width="1920"
+      height="1280"
+    />
     <div class="container hero-grid">
       <div>
         <p class="eyebrow">{home.heroEyebrow}</p>
@@ -129,16 +138,26 @@ const featuredReviews = reviews.filter((r) => r.data.featured).slice(0, 3);
     </section>
   )}
 
-  {/* ── Closing CTA ─────────────────────────────────── */}
-  <section class="section section--dark closing">
+  {/* ── Roadside emergency CTA ──────────────────────── */}
+  <section class="section section--dark closing" aria-label="Yol yardımı çağrısı">
+    <img
+      class="closing__bg"
+      src="/images/yol-yardimi.webp"
+      alt=""
+      aria-hidden="true"
+      loading="lazy"
+      width="1400"
+      height="933"
+    />
     <div class="container closing-inner">
       <div>
+        <p class="eyebrow">{site.roadsideAreaText}</p>
         <h2>{home.closingHeading}</h2>
         <p class="lead">{home.closingSubtext}</p>
       </div>
       <div class="closing-ctas">
-        <a class="btn btn--accent" href={`tel:${site.phonePrimaryTel}`}>
-          {site.phonePrimary}
+        <a class="btn btn--accent btn--lg" href={`tel:${site.phonePrimaryTel}`}>
+          {site.stickyCtaLabel}
         </a>
         <a
           class="btn btn--whatsapp"
@@ -154,8 +173,33 @@ const featuredReviews = reviews.filter((r) => r.data.featured).slice(0, 3);
 </BaseLayout>
 
 <style>
-  .hero { padding-block: clamp(3rem, 8vw, 6rem); }
-  .hero-grid { display: grid; gap: 2rem; max-width: 780px; }
+  /* ── Hero with dark image + gradient overlay ─────────────────────────── */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(4rem, 10vw, 7rem);
+    isolation: isolate;
+  }
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: -2;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(20, 22, 26, 0.55) 0%, rgba(20, 22, 26, 0.85) 100%),
+      linear-gradient(90deg, rgba(20, 22, 26, 0.65) 0%, rgba(20, 22, 26, 0.25) 100%);
+    z-index: -1;
+  }
+  .hero-grid { display: grid; gap: 2rem; max-width: 780px; position: relative; }
+
   .eyebrow {
     font-family: var(--font-heading);
     text-transform: uppercase;
@@ -168,6 +212,11 @@ const featuredReviews = reviews.filter((r) => r.data.featured).slice(0, 3);
     font-size: 1.1rem;
     color: var(--color-on-dark-muted);
     max-width: 60ch;
+  }
+  .hero h1,
+  .closing h1,
+  .closing h2 {
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
   }
   .hero-ctas {
     display: flex;
@@ -188,11 +237,37 @@ const featuredReviews = reviews.filter((r) => r.data.featured).slice(0, 3);
     margin-top: 2rem;
   }
 
+  /* ── Roadside emergency CTA with image bg ────────────────────────────── */
+  .closing {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    padding-block: clamp(3.5rem, 8vw, 5.5rem);
+  }
+  .closing__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: -2;
+  }
+  .closing::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(20, 22, 26, 0.7) 0%, rgba(20, 22, 26, 0.9) 100%),
+      linear-gradient(90deg, rgba(20, 22, 26, 0.75) 0%, rgba(20, 22, 26, 0.35) 100%);
+    z-index: -1;
+  }
   .closing-inner {
     display: grid;
     gap: 1.5rem;
     grid-template-columns: 1fr;
     align-items: center;
+    position: relative;
   }
   .closing h2 { margin-bottom: 0.5rem; }
   .closing .lead { color: var(--color-on-dark-muted); }
@@ -200,6 +275,11 @@ const featuredReviews = reviews.filter((r) => r.data.featured).slice(0, 3);
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
+  }
+  :global(.btn--lg) {
+    padding: 1rem 1.5rem;
+    font-size: 1.05rem;
+    min-height: 56px;
   }
 
   @media (min-width: 700px) {

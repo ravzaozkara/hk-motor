@@ -22,21 +22,33 @@ const { Content } = await render(about);
   </section>
 
   <section class="section">
-    <div class="container prose">
-      <Content />
-      <div class="cta-row">
-        <a class="btn btn--accent" href={`tel:${site.phonePrimaryTel}`}>
-          {site.phonePrimary}
-        </a>
-        <a
-          class="btn btn--whatsapp"
-          href={waLink(site.phoneWhatsapp, site.defaultWhatsappMessage)}
-          target="_blank"
-          rel="noopener"
-        >
-          WhatsApp'tan yaz
-        </a>
+    <div class="container about-grid">
+      <div class="prose">
+        <Content />
+        <div class="cta-row">
+          <a class="btn btn--accent" href={`tel:${site.phonePrimaryTel}`}>
+            {site.phonePrimary}
+          </a>
+          <a
+            class="btn btn--whatsapp"
+            href={waLink(site.phoneWhatsapp, site.defaultWhatsappMessage)}
+            target="_blank"
+            rel="noopener"
+          >
+            WhatsApp'tan yaz
+          </a>
+        </div>
       </div>
+
+      <figure class="about-figure">
+        <img
+          src="/images/hakkimizda.webp"
+          alt="Motosikleti tamir eden usta"
+          loading="lazy"
+          width="1400"
+          height="933"
+        />
+      </figure>
     </div>
   </section>
 </BaseLayout>
@@ -55,6 +67,40 @@ const { Content } = await render(about);
     color: var(--color-accent);
     font-size: 0.85rem;
     margin: 0 0 0.5rem;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+  @media (min-width: 900px) {
+    .about-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+      gap: 3rem;
+    }
+  }
+
+  .about-figure {
+    margin: 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--color-dark);
+    aspect-ratio: 4 / 5;
+    box-shadow: var(--shadow-md);
+  }
+  .about-figure img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  @media (min-width: 900px) {
+    .about-figure {
+      position: sticky;
+      top: calc(72px + 1rem);
+    }
   }
 
   .prose {

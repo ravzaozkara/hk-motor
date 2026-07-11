@@ -57,6 +57,12 @@ Mevcut bir hizmeti düzenlemek için listede üzerine tıklamanız yeterli.
 
 ## 4) Ürün ekleme (yedek parça / aksesuar / 2. el motosiklet)
 
+> **Önemli:** Sitedeki mevcut ürün görselleri (özellikle 2. el motosiklet
+> fotoğrafları) **yer tutucudur** — Pexels'ten alınmış temsili görsellerdir.
+> Kendi gerçek fotoğraflarınızla değiştirmenizi öneririz. Aşağıdaki
+> **Görsel** alanından **Yükle** düğmesiyle kendi fotoğraflarınızı
+> ekleyebilirsiniz.
+
 **Yol:** Sol menüden **Ürünler** → **+ Ürün**.
 
 ### Ortak alanlar (her ürün için)

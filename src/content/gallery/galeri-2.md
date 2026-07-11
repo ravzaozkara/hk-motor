@@ -1,5 +1,5 @@
 ---
-image: /uploads/galeri-2.svg
-caption: Onarım sırasında
+image: /uploads/galeri-2.webp
+caption: Ekipmanla donatılmış tamir alanı
 order: 20
 ---
