@@ -1,6 +1,13 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 
+// Sveltia CMS writes empty numbers as `null` and empty strings as `""`.
+// Vanilla `.optional()` rejects `null`, so wrap in `.preprocess` to coerce
+// both empty-value serializations to `undefined` before Zod validates.
+const nullish = (v: unknown) => (v === "" || v === null ? undefined : v);
+const optionalInt = z.preprocess(nullish, z.number().optional());
+const optionalStr = z.preprocess(nullish, z.string().optional());
+
 // ── Singletons ────────────────────────────────────────────────────────────
 // Each singleton is a folder with exactly one entry, so Sveltia CMS can
 // map it to a "files" collection with a fixed filename.
@@ -70,18 +77,19 @@ const products = defineCollection({
   schema: z.object({
     name: z.string(),
     category: z.enum(["yedek-parca", "aksesuar", "ikinci-el"]),
-    price: z.number().nullish(),
-    image: z.string().optional(),
-    description: z.string().optional(),
+    // All of these are optional; the CMS may write null or "" for cleared values.
+    price: optionalInt,
+    image: optionalStr,
+    description: optionalStr,
     featured: z.boolean().default(false),
     order: z.number().default(100),
     // ikinci-el (second-hand) fields — all optional
-    brand: z.string().optional(),
-    model: z.string().optional(),
-    year: z.number().optional(),
-    km: z.number().optional(),
-    engineCc: z.number().optional(),
-    condition: z.string().optional(),
+    brand: optionalStr,
+    model: optionalStr,
+    year: optionalInt,
+    km: optionalInt,
+    engineCc: optionalInt,
+    condition: optionalStr,
   }),
 });
 
