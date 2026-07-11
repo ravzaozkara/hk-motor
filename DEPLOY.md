@@ -8,14 +8,16 @@ Collect these first — the deploy steps below refer back to them.
 
 | # | Status | Value | Format | Where it comes from | Where it goes |
 |---|---|---|---|---|---|
-| 1 | ✅ done | **GitHub repo slug** — `ravzaozkara/hk-motor` | `owner/name` | Created in step [1](#1-github) | `public/admin/config.yml` → `backend.repo` (still needs to be filled) |
-| 2 | ✅ done | **Default branch name** — `main` | usually `main` | GitHub repo settings | `public/admin/config.yml` → `backend.branch` (already `main`) |
-| 3 | ✅ done | **Live Netlify URL** — `https://hkmotor.netlify.app` | `https://<subdomain>.netlify.app` (no trailing slash) | Assigned in step [2](#2-netlify) | `astro.config.mjs` → `site:` ✅ · `public/admin/config.yml` → `site_url:` ✅ · GitHub OAuth App → Homepage URL (still to do) |
-| 4 | ⏳ pending | **GitHub OAuth App Client ID** | 20-char alphanumeric string | Created in step [4](#4-sveltia-cms-auth-github-oauth-pkce) | `public/admin/config.yml` → `backend.app_id` |
-| 5 | ⏳ pending | **OAuth callback URL** — **fixed:** `https://cms.sveltia.dev/callback` | fixed | Sveltia's hosted PKCE relay | GitHub OAuth App → Authorization callback URL |
+| 1 | ✅ done | **GitHub repo slug** — `ravzaozkara/hk-motor` | `owner/name` | Created in step [1](#1-github) | `public/admin/config.yml` → `backend.repo` ✅ |
+| 2 | ✅ done | **Default branch name** — `main` | usually `main` | GitHub repo settings | `public/admin/config.yml` → `backend.branch` ✅ |
+| 3 | ✅ done | **Live Netlify URL** — `https://hkmotor.netlify.app` | `https://<subdomain>.netlify.app` (no trailing slash) | Assigned in step [2](#2-netlify) | `astro.config.mjs` → `site:` ✅ · `public/admin/config.yml` → `site_url:` ✅ · GitHub OAuth App → Homepage URL ✅ |
+| 4 | ✅ done | **GitHub OAuth App Client ID + Client Secret** | Client ID: 20-char alphanumeric; Secret: 40-char hex (generate on the OAuth App page) | Created in step [4](#4-sveltia-cms-auth-github-oauth-via-netlify) | **Netlify dashboard** → Site → Site configuration → Access & security → OAuth → Install provider → GitHub. **Not** in `config.yml`. |
+| 5 | ✅ done | **OAuth callback URL** — **fixed:** `https://api.netlify.com/auth/done` | fixed | Netlify's built-in OAuth handler | GitHub OAuth App → Authorization callback URL |
 
-Nothing else is required — Sveltia's `auth_type: pkce` means no client secret and
-no self-hosted auth worker. Netlify Forms auto-registers from the built HTML
+Nothing else is required. Sveltia's default GitHub backend uses Netlify's
+built-in OAuth provider — no client secret in `config.yml`, no Cloudflare
+Worker, no `base_url`. The OAuth App's Client ID and Secret live only in the
+Netlify dashboard. Netlify Forms auto-registers from the built HTML
 (no dashboard toggle needed).
 
 ## 1) GitHub
@@ -54,18 +56,23 @@ Test end-to-end:
    URL cleans up.
 4. Confirm the submission arrives under **Site → Forms → contact** in Netlify.
 
-## 4) Sveltia CMS auth (GitHub OAuth PKCE)
+## 4) Sveltia CMS auth (GitHub OAuth via Netlify)
+
+Sveltia's default GitHub backend uses Netlify's built-in OAuth service — no
+Cloudflare Worker, no PKCE client-id in `config.yml`, no `base_url`. All that
+lives in `public/admin/config.yml` is `name`, `repo`, and `branch`.
 
 1. GitHub → **Settings → Developer settings → OAuth Apps → New OAuth App**.
    - Application name: `HK Motors CMS`
-   - Homepage URL: the live Netlify URL
-   - Authorization callback URL: `https://cms.sveltia.dev/callback`
-2. Copy the generated **Client ID**.
-3. Edit [`public/admin/config.yml`](./public/admin/config.yml):
-   - `backend.repo` → `OWNER/hkmotor`
-   - `backend.app_id` → the Client ID
-4. Commit + push. Netlify redeploys.
-5. Log in at `https://YOUR_SITE/admin`.
+   - Homepage URL: `https://hkmotor.netlify.app`
+   - Authorization callback URL: `https://api.netlify.com/auth/done`
+   - Generate a **Client Secret** as well as noting the **Client ID**.
+2. Netlify → **Site → Site configuration → Access & security → OAuth →
+   Install provider**. Choose **GitHub** and paste the Client ID + Client
+   Secret from step 1. Save.
+3. Visit `https://hkmotor.netlify.app/admin`. Click **Login with GitHub** —
+   you'll be redirected to GitHub's authorize screen, then bounced back to
+   `/admin` logged in.
 
 ## 5) Owner handover
 

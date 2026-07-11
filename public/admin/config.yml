@@ -7,24 +7,26 @@
 # Netlify otomatik olarak yeniden yayına alır.
 #
 # KURULUM (yalnızca ilk seferinde, geliştiricinin yapması gerekenler):
-#   1) Aşağıdaki `backend.repo` alanına GitHub repo yolunu yazın
-#      (örn. "kullanici-adi/hkmotor"). Repo private olabilir.
-#   2) GitHub'da bir OAuth App oluşturun (Settings → Developer settings →
-#      OAuth Apps → New OAuth App).
-#      - Homepage URL: canlı site adresi (örn. https://hkmotor.netlify.app)
-#      - Authorization callback URL: https://cms.sveltia.dev/callback
-#   3) Oluşturulan Client ID'yi aşağıdaki `backend.app_id` alanına yazın.
-#      Client Secret gerekmiyor — Sveltia PKCE ile güvenli akış kullanıyor.
-#   4) `admin/config.yml` dosyasını commit'leyip deploy edin. Panel artık
-#      https://SITENIZ/admin adresinden erişilebilir.
+#   Kimlik doğrulama Netlify'ın OAuth servisi üzerinden GitHub'a bağlanır
+#   (Sveltia'nın varsayılan yöntemi). Ek bir sunucu, Cloudflare Worker veya
+#   client secret değeri config.yml'a girilmez — hepsi Netlify tarafında
+#   yönetilir. Adımlar:
+#     1) GitHub'da bir OAuth App oluşturun
+#        (Settings → Developer settings → OAuth Apps → New OAuth App):
+#          - Homepage URL: https://hkmotor.netlify.app
+#          - Authorization callback URL: https://api.netlify.com/auth/done
+#        Client ID ve Client Secret'i not alın.
+#     2) Netlify panelinde: Site → Site configuration → Access & security →
+#        OAuth → Install provider → GitHub → Client ID ve Client Secret'i
+#        girin ve kaydedin.
+#     3) https://hkmotor.netlify.app/admin adresini ziyaret edip
+#        "Login with GitHub" ile giriş yapın.
 # =============================================================================
 
 backend:
   name: github
-  repo: OWNER/REPO           # TODO: "kullanici-adi/hkmotor" olarak güncelleyin
+  repo: ravzaozkara/hk-motor
   branch: main
-  auth_type: pkce            # Sunucusuz PKCE OAuth (Sveltia önerisi)
-  app_id: TODO_CLIENT_ID     # TODO: GitHub OAuth App'in Client ID'si
 
 # Panel arayüzünün dili
 locale: tr
